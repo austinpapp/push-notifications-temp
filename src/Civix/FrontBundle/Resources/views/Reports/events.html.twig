@@ -1,0 +1,40 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Reports - Events{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="span1">{{ knp_pagination_sortable(pagination, 'ID', 'q.id') }}</th>
+                    <th class="span6">{{ knp_pagination_sortable(pagination, 'Title', 'q.title') }}</th>
+                    <th class="span2">{{ knp_pagination_sortable(pagination, 'Created date', 'q.createdAt') }}</th>
+                    <th class="span3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in pagination %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.title }}</td>
+                    <td>{{ question.createdAt|date("d-m-Y H:i") }}</td>
+                    <td class="table-options">
+                        <a href="{{ path('civix_front_' ~ app.user.type ~ '_report_event', {'id': question.id}) }}" class="btn btn-link">Results</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center">Table is empty.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>
+{% endblock content %}

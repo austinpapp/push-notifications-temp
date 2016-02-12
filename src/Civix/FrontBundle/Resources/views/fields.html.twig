@@ -1,0 +1,39 @@
+{% block crop_image_widget %}
+    {% spaceless %}
+        {{ block('form_widget') }}
+    {% endspaceless %}
+{% endblock %}
+
+
+{% block file_widget %}
+    {% spaceless %}
+        <span class="fileupload fileupload-new" data-provides="fileupload">
+            <span class="btn btn-primary btn-small btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input {{ block('widget_attributes') }} type="file" /></span>
+            <span class="fileupload-preview"></span>
+        </span>
+{% endspaceless %}
+{% endblock %}
+
+
+{% block editable_avatar_widget %}
+    {% spaceless %}
+    <div class="edit-avatar-group">
+
+        {% if form.parent.vars.value.getAvatar is empty %}
+            {% if form.parent.vars.value.getType() == 'group' %}
+                <img src="{{ asset('bundles/civixfront/img/default_group.png') }}">
+            {% elseif form.parent.vars.value.getType() == 'representative' %}
+                <img src="{{ asset('bundles/civixfront/img/default_representative.png') }}">
+            {% else %}
+                <img src="{{ asset('bundles/civixfront/img/default_superuser.jpg') }}">
+            {% endif %}
+        {% else %}
+            <img src="{{ vich_uploader_asset(form.parent.vars.value, 'avatar') }}">
+        {% endif %}
+        <div class="actions">
+            {{ block('form_widget') }}
+            <div class="clear"></div>
+        </div>
+    </div>
+    {% endspaceless %}
+{% endblock %}

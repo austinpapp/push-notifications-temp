@@ -1,0 +1,10 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Transaction success {% endblock %}
+
+{% block content %}
+<div class="row">
+    Thanks.
+    Please download emails for this <a href="{{ path('civix_front_' ~ app.user.type ~ '_payment_emails', {'reference':reference}) }}">link</a>
+</div>
+{% endblock content %}

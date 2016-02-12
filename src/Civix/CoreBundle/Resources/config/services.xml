@@ -1,0 +1,331 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="ciceroapi_login">%cicero_login%</parameter>
+        <parameter key="ciceroapi_password">%cicero_password%</parameter>
+        <parameter key="sunlightapi_token">%sunlightapi_token%</parameter>
+        <parameter key="ciceroapi_class">Civix\CoreBundle\Service\CiceroCalls</parameter>
+    </parameters>
+    <!--
+    <parameters>
+        <parameter key="civix_core.example.class">Civix\CoreBundle\Example</parameter>
+    </parameters>
+
+    <services>
+        <service id="civix_core.example" class="%civix_core.example.class%">
+            <argument type="service" id="service_id" />
+            <argument>plain_value</argument>
+            <argument>%parameter_name%</argument>
+        </service>
+    </services>
+    -->
+
+    <services>
+        <service id="civix_core.crop_image" class="Civix\CoreBundle\Service\CropImage">
+        </service>
+        <service id="civix_core.mailgun" class="Civix\CoreBundle\Service\Mailgun\MailgunApi">
+            <argument>%mailgun_public%</argument>
+            <argument>%mailgun_private%</argument>
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="civix_core.crop_avatar" class="Civix\CoreBundle\Service\CropAvatar">
+            <argument type="service" id="civix_core.crop_image" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="civix_core.activity_update" class="Civix\CoreBundle\Service\ActivityUpdate">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.push_task" />
+            <argument type="service" id="validator" />
+            <argument type="service" id="civix_core.settings" />
+            <argument type="service" id="civix_core.poll.comment_manager" />
+        </service>
+
+        <service id="civix_core.social_activity_manager" class="Civix\CoreBundle\Service\SocialActivityManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.push_task" />
+        </service>
+
+        <service id="civix_core.cicero_calls" class="%ciceroapi_class%">
+            <argument>%ciceroapi_login%</argument>
+            <argument>%ciceroapi_password%</argument>
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="civix_core.cicero_api" class="Civix\CoreBundle\Service\CiceroApi">
+            <argument type="service" id="civix_core.cicero_calls" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="vich_uploader.templating.helper.uploader_helper" />
+            <argument type="service" id="civix_core.crop_image" />
+            <argument type="service" id="kernel" />
+            <argument type="service" id="civix_core.congress_api" />
+            <argument type="service" id="civix_core.openstates_api" />
+        </service>
+
+        <!-- Avatar Serializer Handler -->
+        <service id="civix_core.serializer.handler.avatar_handler" class="Civix\CoreBundle\Serializer\Handler\AvatarHandler" scope="request">
+            <tag name="jms_serializer.handler" type="Avatar" direction="serialization" format="json" method="serialize" />
+            <argument type="service" id="vich_uploader.templating.helper.uploader_helper" />
+            <argument type="service" id="request" />
+        </service>
+        <service id="civix_core.deserializer.handler.avatar_handler" class="Civix\CoreBundle\Serializer\Handler\AvatarHandler" scope="request">
+            <tag name="jms_serializer.handler" type="Avatar" direction="deserialization" format="json" method="deserialize" />
+            <argument type="service" id="vich_uploader.templating.helper.uploader_helper" />
+            <argument type="service" id="request" />
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="pushsender" />
+        </service>
+
+        <service id="civix_core.serializer.handler.owner_data_handler" class="Civix\CoreBundle\Serializer\Handler\OwnerDataHandler" scope="request">
+            <tag name="jms_serializer.handler" type="OwnerData" direction="serialization" format="json" method="serialize" />
+            <argument type="service" id="vich_uploader.templating.helper.uploader_helper" />
+            <argument type="service" id="request" />
+        </service>
+
+        <!-- Image Serializer Handler -->
+        <service id="civix_core.serializer.handler.image_handler" class="Civix\CoreBundle\Serializer\Handler\ImageHandler" scope="request">
+            <tag name="jms_serializer.handler" type="Image" direction="serialization" format="json" method="serialize" />
+            <argument type="service" id="vich_uploader.templating.helper.uploader_helper" />
+            <argument type="service" id="request" />
+        </service>
+
+        <!-- JoinStatus Serializer Handler -->
+        <service id="civix_core.serializer.handler.join_status_handler" class="Civix\CoreBundle\Serializer\Handler\JoinStatusHandler">
+            <tag name="jms_serializer.handler" type="JoinStatus" direction="serialization" format="json" method="serialize" />
+            <argument type="service" id="security.context" />
+        </service>
+
+        <service id="civix_core.question_limit" class="Civix\CoreBundle\Service\QuestionLimit">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="session" />
+        </service>
+
+        <service id="civix_core.rabbit.push_queue" class="Civix\CoreBundle\Service\RabbitMQCallback\PushQueue">
+            <argument type="service" id="civix_core.push_sender" />
+            <argument type="service" id="civix_core.representative_storage_manager" />
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="pushsender" />
+        </service>
+
+	<!-- Civix S3 Client -->
+        <service id="civix_core.s3client_api" class="Civix\CoreBundle\Service\S3clientApi">
+	    <argument type="service" id="aws_s3.client" />
+	    <argument>%amazon_s3.bucket%</argument>
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="pushsender" />
+	</service>
+
+	<!--  PUSH TEST -->
+        <service id="civix_core.rabbit.push_test" class="Civix\CoreBundle\Service\RabbitMQCallback\PushTest">
+            <argument type="service" id="civix_core.push_sender" />
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="pushsender" />
+        </service>
+
+        <service id="civix_core.push_task" class="Civix\CoreBundle\Service\PushTask">
+            <argument type="service" id="old_sound_rabbit_mq.push_queue_producer" />
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="pushsender" />
+
+        </service>
+
+        <service id="civix_core.queue_task" class="Civix\CoreBundle\Service\QueueTask">
+            <argument type="service" id="old_sound_rabbit_mq.push_queue_producer" />
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="pushsender" />
+
+        </service>
+
+        <service id="civix_core.push_sender" class="Civix\CoreBundle\Service\PushSender">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.question_users_push" />
+            <argument type="service" id="civix_core.notification" />
+	    <argument type="service" id="civix_core.s3client_api" />
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="pushsender" />
+        </service>
+
+        <service id="civix_core.question_users_push" class="Civix\CoreBundle\Service\Poll\QuestionUserPush">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="civix_core.invite_sender" class="Civix\CoreBundle\Service\InviteSender">
+            <argument type="service" id="civix_core.email_sender"/>
+            <argument type="service" id="civix_core.push_task"/>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.mailgun"/>
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="pushsender" />
+        </service>
+
+        <service id="civix_core.poll.comment_manager" class="Civix\CoreBundle\Service\Poll\CommentManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.content_manager" />
+            <argument type="service" id="civix_core.social_activity_manager" />
+        </service>
+
+        <service id="civix_core.poll.micropetition_manager" class="Civix\CoreBundle\Service\Micropetitions\PetitionManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.activity_update" />
+        </service>
+
+        <service id="civix_core.poll.answer_manager" class="Civix\CoreBundle\Service\Poll\AnswerManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="civix_core.group_manager" class="Civix\CoreBundle\Service\Group\GroupManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.geocode" />
+        </service>
+
+        <service id="civix_core.representative_manager" class="Civix\CoreBundle\Service\Representative\RepresentativeManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="security.encoder_factory" />
+            <argument type="service" id="civix_core.cicero_api" />
+        </service>
+
+        <service id="civix_core.representative_storage_manager" class="Civix\CoreBundle\Service\Representative\RepresentativeSTManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.cicero_api" />
+            <argument type="service" id="civix_core.cicero_calls" />
+        </service>
+
+        <service id="civix_core.user_manager" class="Civix\CoreBundle\Service\User\UserManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.cicero_api" />
+            <argument type="service" id="civix_core.group_manager" />
+            <argument type="service" id="civix_core.crop_image" />
+            <argument>%kernel.root_dir%</argument>
+        </service>
+
+        <service id="civix_core.account_manager" class="Civix\CoreBundle\Service\AccountManager" scope="request">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="session" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="request" />
+        </service>
+
+        <service id="civix_core.openstates_api" class="Civix\CoreBundle\Service\OpenstatesApi">
+            <argument>%sunlightapi_token%</argument>
+        </service>
+
+        <service id="civix_core.congress_api" class="Civix\CoreBundle\Service\CongressApi">
+            <argument>%sunlightapi_token%</argument>
+        </service>
+
+        <service id="civix_core.facebook_api" class="Civix\CoreBundle\Service\FacebookApi">
+        </service>
+
+        <service id="civix_core.validator.facebook_token" class="Civix\CoreBundle\Validator\Constrains\ConstrainsFacebookTokenValidator">
+            <argument type="service" id="civix_core.facebook_api" />
+            <tag name="validator.constraint_validator" alias="civix_core.validator.facebook_token" />
+        </service>
+        <service id="civix_core.validator.not_joined_to_group" class="Civix\CoreBundle\Validator\Constrains\NotJoinedToGroupValidator">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="validator.constraint_validator" alias="civix_core.validator.not_joined_to_group" />
+        </service>
+
+        <service id="aws_s3.client" class="Aws\S3\S3Client" factory-class="Aws\S3\S3Client" factory-method="factory">
+            <argument type="collection">
+                <argument key="key">%amazon_s3.key%</argument>
+                <argument key="secret">%amazon_s3.secret%</argument>
+                <argument key="region">%amazon_s3.region%</argument>
+            </argument>
+        </service>
+        <service id="aws_sns.client" class="Aws\Sns\SnsClient" factory-class="Aws\Sns\SnsClient" factory-method="factory">
+            <argument type="collection">
+                <argument key="key">%amazon_s3.key%</argument>
+                <argument key="secret">%amazon_s3.secret%</argument>
+                <argument key="region">%amazon_s3.region%</argument>
+            </argument>
+        </service>
+        <service id="aws_ses.client" class="Aws\Ses\SesClient" factory-class="Aws\Ses\SesClient" factory-method="factory">
+            <argument type="collection">
+                <argument key="key">%amazon_s3.key%</argument>
+                <argument key="secret">%amazon_s3.secret%</argument>
+                <argument key="region">%amazon_s3.region%</argument>
+            </argument>
+        </service>
+        <service id="civix_core.notification" class="Civix\CoreBundle\Service\Notification">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="aws_sns.client" />
+            <argument>%amazon_sns.android_arn%</argument>
+            <argument>%amazon_sns.ios_arn%</argument>
+        </service>
+
+        <service id="civix_core.email_sender" class="Civix\CoreBundle\Service\EmailSender">
+            <argument type="service" id="mailer" />
+            <argument type="service" id="templating"/>
+            <argument>%mailer_from%</argument>
+            <argument>%mailer_beta_access_recipient%</argument>
+            <argument>%domain%</argument>
+        </service>
+
+        <service id="civix_core.customer_manager" class="Civix\CoreBundle\Service\Customer\CustomerManager">
+            <argument type="service" id="civix_balanced.payment_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        <service id="civix_core.payments_transaction_manager" class="Civix\CoreBundle\Service\Payments\TransactionManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        <service id="civix_core.payments" class="Civix\CoreBundle\Service\Payments\BalancedPayment">
+            <argument type="service" id="civix_balanced.payment_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%balanced_payment_marketplace_user_id%</argument>
+        </service>
+
+        <service id="civix_core.orders_manager" class="Civix\CoreBundle\Service\Customer\OrdersManager">
+            <argument type="service" id="civix_balanced.payment_calls" />
+            <argument type="service" id="civix_core.customer_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="civix_core.email_sender"/>
+        </service>
+
+        <service id="civix_core.comment_model_param_converter"
+                 class="Civix\CoreBundle\Request\ParamConverter\Comment\CommentModelConverter">
+            <tag name="request.param_converter" priority="-100" />
+        </service>
+
+        <service id="civix_core.answer_model_param_converter"
+                 class="Civix\CoreBundle\Request\ParamConverter\Answer\AnswerModelConverter">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <tag name="request.param_converter" priority="-100" />
+        </service>
+
+        <service id="civix_core.subscription_manager" class="Civix\CoreBundle\Service\Subscription\SubscriptionManager">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="civix_core.stripe" />
+            <argument type="service" id="civix_core.email_sender"/>
+            <argument type="service" id="civix_core.discount_code_manager"/>
+        </service>
+
+        <service id="civix_core.package_handler" class="Civix\CoreBundle\Service\Subscription\PackageHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="civix_core.subscription_manager"/>
+        </service>
+
+        <service id="civix_core.discount_code_manager" class="Civix\CoreBundle\Service\Subscription\DiscountCodeManager">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+
+        <service id="civix_core.geocode" class="Civix\CoreBundle\Service\Google\Geocode"></service>
+
+        <service id="civix_core.settings" class="Civix\CoreBundle\Service\Settings">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+        </service>
+
+        <service id="civix_core.content_manager" class="Civix\CoreBundle\Service\ContentManager">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="civix_core.stripe" class="Civix\CoreBundle\Service\Stripe">
+            <argument>%stripe_api_key%</argument>
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+    </services>
+</container>

@@ -1,0 +1,24 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+env:
+    - SYMFONY_VERSION=2.0.*
+    - SYMFONY_VERSION=2.1.*
+    - SYMFONY_VERSION=dev-master
+
+
+before_script:
+    - curl -s http://getcomposer.org/installer | php
+    - wget http://pecl.php.net/get/mongo-1.2.10.tgz
+    - tar -xzf mongo-1.2.10.tgz
+    - sh -c "cd mongo-1.2.10 && phpize && ./configure && sudo make install"
+    - echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+    - php composer.phar require symfony/framework-bundle:${SYMFONY_VERSION}
+    - php composer.phar install --dev
+
+notifications:
+  email:
+    - tassi.francesco@gmail.com

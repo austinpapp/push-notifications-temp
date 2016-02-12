@@ -1,0 +1,15 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}News - comments{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="span12">
+        <h4>News - comments</h4>
+        {% if comment %}
+            {% include 'CivixFrontBundle:News:comment.html.twig' with {'comment': comment } %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

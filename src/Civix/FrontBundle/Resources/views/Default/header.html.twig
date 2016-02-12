@@ -1,0 +1,35 @@
+<header>
+    <section>
+        <h1>POWERLINE</h1>
+    </section>
+    <section>
+        {% if app.user %}
+            <div class="right-block">
+                <p>{{ app.user.officialName }}</p>
+                <p>
+                    {% if logoutPath %}
+                        <a href="{{ logoutPath[1] }}">{{ logoutPath[0] }}</a>
+                    {% else %}
+                        <a href="{{ path('civix_' ~ app.user.type ~ '_logout') }}">Sign Out</a>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="right-block avatar">
+                <figure>
+                    <a href="{{ path(paths.profile[app.user.type]) }}">
+                        {% if app.user.avatar %}
+                            <img src="{{ vich_uploader_asset(app.user, 'avatar') }}">
+                        {% else %}
+                            <img src="{{ asset(constant('DEFAULT_AVATAR', app.user)) }}">
+                        {% endif %}
+                    </a>
+                </figure>
+            </div>
+            <div class="right-block">
+                <a href="{{ path(paths.settings[app.user.type]) }}">
+                    <i class="icon-settings"></i>
+                </a>
+            </div>
+        {% endif %}
+    </section>
+</header>

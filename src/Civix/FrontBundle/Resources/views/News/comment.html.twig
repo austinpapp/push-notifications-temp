@@ -1,0 +1,7 @@
+<dl>
+    <dt>{% if comment.user and (not comment.privacy)%}{{ comment.user.officialName }} ({{ comment.user.username }}){% else %}Someone{% endif %}:</dt>
+    <dd class="well well-small">{{ comment.commentBody }}</dd>
+    {% for child in comment.childrenComments %}
+        <dd>{% include 'CivixFrontBundle:News:comment.html.twig' with {'comment': child } %}</dd>
+    {% endfor %}
+</dl>

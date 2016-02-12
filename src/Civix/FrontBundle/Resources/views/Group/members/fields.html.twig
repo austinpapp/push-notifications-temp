@@ -1,0 +1,31 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}User's fields{% endblock %}
+
+{% block content %}
+
+    <div class="span12">
+    {% if package.isGroupJoinManagementAvailable %}
+        <form enctype="multipart/form-data" class="form-horizontal" role="form" action="{{path('civix_front_group_members')}}">
+             <fieldset>
+                <legend>User's fields ({{ user.getOfficialName }})</legend>
+               {% for value in fieldValues %}
+                <div class="control-group">
+                    <label class="control-label" >{{ value.field.fieldName }}</label>
+                    <div class="controls">
+                        <span class="input-xlarge uneditable-input">{{ value.fieldValue }}</span>
+                    </div>
+               </div>
+                {% else %}
+                    No fields in group
+                {% endfor %}
+               <div class="form-actions">
+                    <button class="btn">Back</button>
+               </div>
+            </fieldset>
+        </form>
+    {% else %}
+        <h5>Not available for free account</h5>
+    {% endif %}
+    </div>
+{% endblock content %}

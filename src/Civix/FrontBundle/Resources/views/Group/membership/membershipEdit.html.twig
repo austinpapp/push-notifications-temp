@@ -1,0 +1,36 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Membership control{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('settingsMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    {% if package.isGroupJoinManagementAvailable %}
+        <div class="row">
+            <div class="span12">
+            <form class="form-horizontal" action="{{ path('civix_front_group_membership_save')}}" method="POST">
+                <fieldset>
+                    <legend>Edit membership control</legend>
+                    {{ form_errors(membershipForm) }}
+                    {{ form_rest(membershipForm) }}
+                    <div class="form-actions">
+                        <input type="submit" class="btn btn-primary bt" value="Save" />
+                    </div>
+                </fieldset>
+            </form>
+            </div>
+        </div>
+    {% else %}
+        <h5>Not available for free account</h5>
+    {% endif %}
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/group.membership.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

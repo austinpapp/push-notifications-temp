@@ -1,0 +1,139 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+        Civix\CoreBundle\Entity\Representative:
+            algorithm: sha512
+            encode-as-base64: false
+            iterations: 473
+        Civix\CoreBundle\Entity\Group:
+            algorithm: sha512
+            encode-as-base64: false
+            iterations: 473
+        Civix\CoreBundle\Entity\Superuser:
+            algorithm: sha512
+            encode-as-base64: false
+            iterations: 473
+        Civix\CoreBundle\Entity\User:
+            algorithm: sha512
+            encode-as-base64: false
+            iterations: 473
+
+    providers:
+        representative:
+            entity: { class: CivixCoreBundle:Representative, property: username }
+        group:
+            entity: { class: CivixCoreBundle:Group, property: username }
+        superuser:
+            entity: { class: CivixCoreBundle:Superuser, property: username }
+        mobileuser:
+            entity: { class: CivixCoreBundle:User, property: username }
+
+    firewalls:
+        representative_login:
+            pattern: ^/representative/login$
+            anonymous: ~
+        representative_registration:
+            pattern: ^/representative/registration$
+            anonymous: ~
+        representative_security_area:
+            pattern: ^/representative/
+            provider: representative
+            security: true
+            form_login:
+                check_path: /representative/login_check
+                login_path: /representative/login
+                csrf_provider: form.csrf_provider
+                intention: representative_authentication
+            logout:
+                path: /representative/logout
+                target: /representative
+
+        group_login:
+            pattern: ^/group/login$
+            anonymous: ~
+        group_registration:
+            pattern: ^/group/registration$
+            anonymous: ~
+        group_security_area:
+            pattern: ^/group/
+            provider: group
+            security: true
+            form_login:
+                check_path: /group/login_check
+                login_path: /group/login
+                csrf_provider: form.csrf_provider
+                intention: group_authentication
+            logout:
+                path: /group/logout
+                target: /group
+
+        superuser_login:
+            pattern: ^/superuser/login$
+            anonymous: ~
+        superuser_security_area:
+            pattern: ^/superuser/
+            provider: superuser
+            security: true
+            form_login:
+                check_path: /superuser/login_check
+                login_path: /superuser/login
+                csrf_provider: form.csrf_provider
+                intention: superuser_authentication
+            logout:
+                path: /superuser/logout
+                target: /superuser
+
+        public_api:
+            pattern: ^/api-public/
+            anonymous: ~
+
+        mobileuser_login:
+            pattern: ^/api/secure/login$
+            anonymous: ~
+
+        mobileuser_registration:
+            pattern: ^/api/secure/registration$
+            anonymous: ~
+
+        mobileuser_facebook_login:
+            pattern: ^/api/secure/facebook/login$
+            anonymous: ~
+
+        mobileuser_facebook_registration:
+            pattern: ^/api/secure/registration-facebook$
+            anonymous: ~
+
+        mobileuser_forgot_password:
+            pattern: ^/api/secure/forgot-password$
+            anonymous: ~
+
+        mobileuser_reset_token:
+            pattern: ^/api/secure/resettoken/
+            anonymous: ~
+
+        mobileuser_request_beta:
+            pattern: ^/api/secure/beta$
+            anonymous: ~
+
+        mobileuser_security_area:
+            pattern: ^/api/
+            security: true
+            header: true
+            provider: mobileuser
+
+        leader_api_login:
+            pattern: ^/api-leader/sessions/$
+            anonymous: ~
+
+        leader_api_secure_area:
+            pattern: ^/api-leader/
+            security: true
+            header: true
+            provider: mobileuser
+
+        other_area:
+            pattern: ^/
+            anonymous: ~

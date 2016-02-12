@@ -1,0 +1,74 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Group Section - {{ section.title }}{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('groupMemberMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <nav class="submenu">
+        <ul class="nav nav-pills pull-right">
+            <li class="first last">
+                <a href="{{ path('civix_front_group_sections_edit', {'id': section.id}) }}">Edit</a>
+            </li>
+            <li>
+                <a href="{{ path('civix_front_group_sections_index') }}">Back to list</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="row">
+
+        <div class="span12">
+            <h4>Assign to group section:</h4>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="span6">{{ knp_pagination_sortable(pagination, 'Name', 'u.firstName') }}</th>
+                    <th class="span2">{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+                    <th class="span3">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in pagination %}
+                    <tr>
+                        <td>{{ user.firstName }} {{ user.lastName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td><a href="{{ path('civix_front_group_sections_assign', {'id': section.id, 'user_id': user.id, 'token': token }) }}">assign</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center">Table is empty.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+
+        <div class="span12">
+            <h4>Users assigned to {{ section.title }}</h4>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+                {% for user in section.users %}
+                    <tr>
+                        <td>{{ user.firstName }} {{ user.lastName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td><a href="{{ path('civix_front_group_sections_remove_user', {'id': section.id, 'user_id': user.id, 'token': token }) }}">remove</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center">No users in section.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+{% endblock content %}

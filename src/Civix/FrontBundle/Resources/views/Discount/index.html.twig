@@ -1,0 +1,52 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+{% from 'MopaBootstrapBundle::macros.html.twig' import label %}
+
+{% block page_title %}Discounts Codes{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="span3">Coupon</th>
+                <th>Created</th>
+                <th>Percent off</th>
+                <th>Amount off</th>
+                <th>Currency</th>
+                <th>Duration</th>
+                <th>Redeem by</th>
+                <th>Max redemptions</th>
+                <th>Times redeemed</th>
+                <th>Duration in months</th>
+                <th>Valid</th>
+            </tr>
+            {% for coupon in coupons.data %}
+                <tr>
+                    <td>{{ coupon.id }}</td>
+                    <td>{{ coupon.created | date }}</td>
+                    <td>{{ coupon.percent_off }}</td>
+                    <td>{{ coupon.amount_off }}</td>
+                    <td>{{ coupon.currency }}</td>
+                    <td>{{ coupon.duration }}</td>
+                    <td>{{ coupon.redeem_by | date }}</td>
+                    <td>{{ coupon.max_redemptions }}</td>
+                    <td>{{ coupon.times_redeemed }}</td>
+                    <td>{{ coupon.duration_in_months }}</td>
+                    <td>{{ coupon.valid ? 'Yes' : 'No' }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="form-actions">
+            {% if after %}
+                <a class="btn"
+                    href="{{ path('civix_front_superuser_discount_index', {before: coupons.data[0] is defined ? coupons.data[0].id : after}) }}">Prev</a>
+            {% endif %}
+            {% if (coupons.data | length) == limit %}
+                <a class="btn"
+                   href="{{ path('civix_front_superuser_discount_index', {after: coupons.data[limit - 1].id}) }}">Next</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content%} 

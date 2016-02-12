@@ -1,0 +1,91 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Local Groups{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="span6">
+            <div class="btn-group bottom">
+                <button class="btn">
+                    {{ selectedGroup ? (selectedGroup.isCountryGroup() ? selectedGroup.officialName : selectedGroup.parent.officialName) : 'Select the country group' }}
+                </button>
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                   {% for group in countryGroups %}
+                   <li>
+                       <a href="{{path('civix_front_superuser_local_groups_by_parent', {'id': group.id})}}">{{ group.officialName }}</a>
+                   </li>
+                   {% endfor %}
+                </ul>
+            </div>
+            {% if selectedGroup %}
+                <div class="btn-group bottom">
+                    <button class="btn">{{ selectedGroup and selectedGroup.isStateGroup() ? selectedGroup.officialName : 'Select the state group' }}</button>
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for group in (selectedGroup.isCountryGroup() ? selectedGroup.children : selectedGroup.parent.children) %}
+                            {% if group.isStateGroup() %}
+                                <li>
+                                    <a href="{{path('civix_front_superuser_local_groups_by_parent', {'id': group.id})}}">{{ group.officialName }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+        {% if selectedGroup %}
+        <div class="span6">
+            <div class="filterOfTable">
+                <label> Search:
+                    <input type="text" data-filter-input="#state-groups" name="localsearch" />
+                </label>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+ {% if selectedGroup %}
+    <div class="row">
+        <div class="span12">
+            <table class="table table-bordered table-striped" id="state-groups">
+                <thead>
+                    <tr>
+                        <th class="span1">ID</th>
+                        <th class="span5">Official Name</th>
+                        <th class="span4">Location Name</th>
+                        <th class="span2">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in selectedGroup.children %}
+                        {% if group.isLocalGroup() %}
+                            <tr data-filter-item="{{ group.officialName }}">
+                                <td>{{ group.id }}</td>
+                                <td>{{ group.officialName }}</td>
+                                <td>{{ group.locationName }}</td>
+                                <td class="table-options">
+                                    <a href="{{ path('civix_front_superuser_local_groups_assign',{'group': group.id}) }}" title="Limits"><i class="icon-wrench"></i>Assign</a>
+                                </td>
+                            </tr>
+                        {% endif %}
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/filter.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

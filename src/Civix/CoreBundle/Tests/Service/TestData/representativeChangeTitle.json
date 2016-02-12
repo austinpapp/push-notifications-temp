@@ -1,0 +1,162 @@
+{
+  "response": {
+    "errors": [], 
+    "messages": [], 
+    "results": {
+      "count": {
+        "to": 0, 
+        "total": 1, 
+        "from": 0
+      }, 
+      "officials": [
+        {
+          "last_name": "Biden", 
+          "addresses": [
+            {
+              "county": "District of Columbia", 
+              "postal_code": "20500", 
+              "phone_2": "", 
+              "phone_1": "", 
+              "fax_1": "", 
+              "city": "Washington", 
+              "fax_2": "", 
+              "state": "DC", 
+              "address_1": "The White House", 
+              "address_2": "1600 Pennsylvania Avenue NW", 
+              "address_3": ""
+            }
+          ], 
+          "office": {
+            "valid_from": "2009-01-20 00:00:00", 
+            "district": {
+              "district_type": "NATIONAL_EXEC", 
+              "city": "", 
+              "valid_from": "0001-01-01 04:56:02", 
+              "country": "US", 
+              "district_id": "UNITED STATES", 
+              "valid_to": null, 
+              "label": "United States", 
+              "sk": 19, 
+              "subtype": "NATION", 
+              "state": "", 
+              "last_update_date": "2012-03-18 07:46:32", 
+              "data": {}, 
+              "id": 19
+            }, 
+            "representing_country": {
+              "status": "UN Member State", 
+              "name_short": "United States", 
+              "gmi_3": "USA", 
+              "valid_from": "0001-01-01 00:00:00", 
+              "name_short_iso": "United States", 
+              "name_short_local": "United States", 
+              "valid_to": null, 
+              "id": 270, 
+              "sk": 247, 
+              "name_short_un": "United States of America", 
+              "fips": "US", 
+              "last_update_date": "2012-10-10 17:29:57.613222", 
+              "iso_3": "USA", 
+              "iso_2": "US", 
+              "iso_3_numeric": 840, 
+              "name_long_local": "United States of America", 
+              "name_long": "United States of America"
+            }, 
+            "representing_state": "", 
+            "notes": "", 
+            "title": "President", 
+            "valid_to": "2017-01-20 00:00:00", 
+            "sk": 1415, 
+            "chamber": {
+              "vacancy_rules": "", 
+              "legislature_update_date": "0001-01-01 04:56:02", 
+              "official_count": 1, 
+              "id": 320, 
+              "term_length": "", 
+              "is_chamber_complete": true, 
+              "name_native_language": "", 
+              "type": "EXEC", 
+              "name_formal": "Vice President of the United States", 
+              "election_frequency": "", 
+              "government": {
+                "city": "", 
+                "state": "", 
+                "name": "United States of America", 
+                "country": {
+                  "status": "UN Member State", 
+                  "name_short": "United States", 
+                  "gmi_3": "USA", 
+                  "valid_from": "0001-01-01 00:00:00", 
+                  "name_short_iso": "United States", 
+                  "name_short_local": "United States", 
+                  "valid_to": null, 
+                  "id": 270, 
+                  "sk": 247, 
+                  "name_short_un": "United States of America", 
+                  "fips": "US", 
+                  "last_update_date": "2012-10-10 17:29:57.613222", 
+                  "iso_3": "USA", 
+                  "iso_2": "US", 
+                  "iso_3_numeric": 840, 
+                  "name_long_local": "United States of America", 
+                  "name_long": "United States of America"
+                }, 
+                "notes": "", 
+                "type": "NATIONAL"
+              }, 
+              "redistricting_rules": "", 
+              "inauguration_rules": "", 
+              "contact_email": "", 
+              "last_update_date": "2010-01-06 05:00:00", 
+              "remarks": "", 
+              "name": "Vice President", 
+              "url": "http://www.whitehouse.gov/administration/vice-president-biden", 
+              "contact_phone": "", 
+              "notes": "", 
+              "has_geographic_representation": false, 
+              "election_rules": "", 
+              "term_limit": ""
+            }, 
+            "last_update_date": "2013-01-24 02:12:07.133661", 
+            "election_rules": "", 
+            "id": 44926, 
+            "representing_city": ""
+          }, 
+          "initial_term_start_date": "2009-01-20 05:00:00", 
+          "current_term_start_date": "2009-01-20 00:00:00", 
+          "web_form_url": "http://www.whitehouse.gov/contact-vp", 
+          "last_update_date": "2013-01-24 02:12:07.133661", 
+          "salutation": "Honorable", 
+          "id": 44926, 
+          "photo_origin_url": "http://www.whitehouse.gov/sites/default/files/imagecache/admin_official_thumb/administration-official/ao_image/vp_portrait_hi-res.jpg", 
+          "middle_initial": "Robinette", 
+          "first_name": "Joseph", 
+          "valid_from": "2009-01-20 00:00:00", 
+          "committees": [], 
+          "notes": [], 
+          "identifiers": [
+            {
+              "valid_from": "2012-11-29 18:23:02.338670", 
+              "official": 44926, 
+              "valid_to": null, 
+              "sk": 4760, 
+              "last_update_date": "2012-11-29 18:23:02.338742", 
+              "identifier_type": "TWITTER", 
+              "id": 4760, 
+              "identifier_value": "JoeBiden"
+            }
+          ], 
+          "name_suffix": "Jr.", 
+          "valid_to": "2017-01-20 00:00:00", 
+          "sk": 1415, 
+          "term_end_date": "2017-01-20 00:00:00", 
+          "urls": [
+            "http://www.whitehouse.gov/administration/vice-president-biden"
+          ], 
+          "party": "Democrat", 
+          "email_addresses": []
+        }
+      ]
+    }
+  }
+}

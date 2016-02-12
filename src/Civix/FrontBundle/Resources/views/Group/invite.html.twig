@@ -1,0 +1,31 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Invite{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('groupMemberMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <form action="{{ path('civix_front_group_send_invite') }}" method="POST" {{ form_enctype(inviteForm) }}>
+                <fieldset>
+                    <legend>Invite</legend>
+                    {{ form_errors(inviteForm) }}
+                    {{ form_row(inviteForm.emails) }}
+                    {{ form_widget(inviteForm._token) }}
+                <fieldset>
+                <input type="submit" class="btn btn-primary bt" value="Send" />
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/invite.validation.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

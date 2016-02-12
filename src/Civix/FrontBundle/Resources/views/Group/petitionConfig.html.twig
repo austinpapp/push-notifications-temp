@@ -1,0 +1,25 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Micro-petitions configuration{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('microPetitionMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+        <form class="form-horizontal" action="{{ path(updatePath) }}" method="POST">
+            <fieldset>
+                <legend>Edit petition's configuration</legend>
+                {{ form_errors(petitionConfigForm) }}
+                {{ form_rest(petitionConfigForm) }}
+                {% if isChangeConfig %}
+                <div class="form-actions">
+                    <input type="submit" class="btn btn-primary bt" value="Save" />
+                </div>
+                {% endif %}
+            </fieldset>
+        </form>
+        </div>
+    </div>
+{% endblock content %}

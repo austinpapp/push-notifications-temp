@@ -1,0 +1,56 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block image_widget %}
+    {% spaceless %}
+
+        {#{ form_label(form, label|default(null)) }#}
+
+        {% if form.vars.data is empty %}
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+            <div>
+                <span class="btn btn-file btn-primary">
+                    <span class="fileupload-new">Select image</span>
+                    <span class="fileupload-exists">Change</span>
+                    <input {{ block('widget_attributes') }} type="file" />
+                </span>
+                <a href="#" class="btn fileupload-exists btn-primary" data-dismiss="fileupload">Remove</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="fileupload fileupload-exists" data-provides="fileupload">
+            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+                <img src="{{ vich_uploader_asset(form.getParent().vars.data, 'image') }}" />
+            </div>
+            <div>
+                <span class="btn btn-file btn-primary">
+                    <span class="fileupload-new">Select image</span>
+                    <span class="fileupload-exists">Change</span>
+                    <input {{ block('widget_attributes') }} type="file" data-name="{{ form.vars.data }}"/>
+                </span>
+                <a href="#" class="btn fileupload-exists btn-primary remove" data-dismiss="fileupload">Remove</a>
+            </div>
+        </div>
+        {% endif %}
+
+    {% endspaceless %}
+
+    {% block foot_script %}
+        {{ parent() }}
+        {% javascripts
+        '@CivixFrontBundle/Resources/public/js/bootstrap-fileupload.js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
+    {% block head_style %}
+        {{ parent() }}
+        {% stylesheets filter='cssrewrite'
+        '@CivixFrontBundle/Resources/public/css/bootstrap-fileupload.css'
+        %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        {% endstylesheets %}
+    {% endblock %}
+
+
+{% endblock %}

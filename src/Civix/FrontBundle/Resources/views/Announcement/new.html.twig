@@ -1,0 +1,17 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Create new announcement{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form class="form-horizontal" action="{{ path('civix_front_'~ app.user.type ~ '_announcement_new') }}" method="POST">
+            {{ form_widget(form) }}
+            <div class="form-actions">
+                <input type="submit" value="Create" class="btn btn-primary">
+                <a class="btn" href="{{ path('civix_front_'~ app.user.type ~ '_announcement_index') }}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

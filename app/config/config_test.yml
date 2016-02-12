@@ -1,0 +1,35 @@
+imports:
+    - { resource: config_dev.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        enabled: false
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+
+liip_functional_test:
+    cache_sqlite_db: true
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
+
+parameters:
+    sunlightapi_token: ~
+    cicero_login: ~
+    cicero_password: ~
+    ciceroapi_class: Civix\CoreBundle\Tests\Mock\Service\CiceroCalls
+    old_sound_rabbit_mq.producer.class: Civix\CoreBundle\Tests\Mock\RabbitMq\Producer
+    old_sound_rabbit_mq.connection.class: Civix\CoreBundle\Tests\Mock\RabbitMq\AMQPConnection

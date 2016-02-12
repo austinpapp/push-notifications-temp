@@ -1,0 +1,45 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Crop profile avatar{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form class="form-horizontal" method="POST" action="{{ path('civix_front_group_update_avatar') }}">
+            <fieldset>
+                <legend>Crop and save avatar</legend>
+                {{ form_widget(cropImageForm) }}
+                <div class="crop-area">
+                    <img src="{{ vich_uploader_asset(avatarForm.vars.data, 'avatarSource') }}">
+                </div>
+                <div class="crop-preview-area">
+                    <img src="{{ vich_uploader_asset(avatarForm.vars.data, 'avatarSource') }}">
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-actions">
+                    <button class="btn btn-primary">Save avatar</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block head_style %}
+{{ parent() }}
+{% stylesheets
+'@CivixFrontBundle/Resources/public/css/jquery.jcrop.css'
+%}
+<link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+{% endstylesheets %}
+{% endblock head_style %}
+
+{% block foot_script %}
+{{ parent() }}
+{% javascripts
+    '@CivixFrontBundle/Resources/public/js/jquery.jcrop.js'
+    '@CivixFrontBundle/Resources/public/js/avatar.crop.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock foot_script %}

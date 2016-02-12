@@ -1,0 +1,70 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Reports - Membership{% endblock %}
+
+{% block content %}
+
+<div class="control-group pull-right">
+    <a href="{{ path('civix_front_group_report_downloadmembership') }}"><button class="btn btn-success">Download</button></a>
+</div>
+<div class="row">
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    {% if group.hasRequiredPermissions('permissions_name') %}<th class="span2">Name</th>{% endif %}
+                    {% if group.hasRequiredPermissions('permissions_address') %}<th class="span3">Address</th>{% endif %}
+                    {% if group.hasRequiredPermissions('permissions_email') %}<th class="span3">Email</th>{% endif %}
+                    {% if group.hasRequiredPermissions('permissions_phone') %}<th class="span3">Phone Number</th>{% endif %}
+                    <th class="span1">Facebook</th>
+                    <th class="span2">Group division</th>
+                    <th class="span2">Answers</th>
+                    <th class="span1">Join date</th>
+                    <th class="span1">Followers</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ug in pagination %}
+                <tr>
+                    {% if group.hasRequiredPermissions('permissions_name') %}
+                        <td>{% if ug.0.getPermissionsName() %}{{ ug.0.user.fullname }}{% endif %}</td>
+                    {% endif %}
+
+                    {% if group.hasRequiredPermissions('permissions_address') %}
+                        <td>
+                            {% if ug.0.getPermissionsAddress() %}
+                                {{ ug.0.user.address1 }} {{ ug.0.user.address2 }}, {{ ug.0.user.city }}, {{ ug.0.user.state }}, {{ ug.0.user.country }}
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                    {% if group.hasRequiredPermissions('permissions_email') %}
+                        <td>{% if ug.0.getPermissionsEmail() %}{{ ug.0.user.email }}{% endif %}</td>
+                    {% endif %}
+                    {% if group.hasRequiredPermissions('permissions_phone') %}
+                        <td>{% if ug.0.getPermissionsPhone() %}{{ ug.0.user.phone }}{% endif %}</td>
+                    {% endif %}
+
+                    <td>{%if ug.0.user.facebookId %}Yes{%else%}No{%endif%}</td>
+                    <td>{{ ug.groupDivision }}</td>
+                    <td>
+                        {{ render(controller('CivixFrontBundle:Group/Report:fields', {
+                            'user': ug.0.user
+                        })) }}
+                    </td>
+                    <td>{{ug.0.createdAt|date('D, d M Y H:i:s')}}</td>
+                    <td>{{ug.0.user.followers.count}}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" style="text-align: center">Table is empty.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>
+{% endblock content %}

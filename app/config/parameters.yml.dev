@@ -1,0 +1,56 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     civixdevdb.c5ywiczyhtjr.us-east-1.rds.amazonaws.com
+    database_port:     ~
+    database_name:     civixdevdb
+    database_user:     civixdevdb
+    database_password: civixdevdb
+
+    mailer_transport:  smtp
+    mailer_host:       'email-smtp.us-east-1.amazonaws.com'
+    mailer_user:       'AKIAIR3T4SCMIWOTAOWA'
+    mailer_password:   'Ap3rzxOaji8sJUduNAp1+yQf3jTFXudxsivCg/S760lE'
+    mailer_from:       'support@powerli.ne'
+    mailer_beta_access_recipient: 'sergey.sak@intellectsoft.org'
+
+    locale:            en
+    secret:            ThisTokenIsNotSoSecretChangeIt
+    domain:            dev.powerli.ne
+
+    amazon_s3.key: AKIAIPJLMY3XSZ53ULMQ
+    amazon_s3.secret: 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
+    amazon_s3.region: us-west-1
+    amazon_s3.bucket: dev.powerli.ne
+    amazon_s3.url: http://dev.powerli.ne.s3-website-us-west-1.amazonaws.com
+
+    amazon_sns.android_arn: 'arn:aws:sns:eu-west-1:863632456175:app/GCM/powerline_android_staging'
+    amazon_sns.ios_arn: 'arn:aws:sns:eu-west-1:863632456175:app/APNS/powerline_ios_staging'
+
+    recaptcha_public_key:   '6Ld7POMSAAAAAJSCpXu9X_LAMwxMVCRjDWYOW1D9'
+    recaptcha_private_key:  '6Ld7POMSAAAAAEvKq_cq1UnxITF9Vbogc8bjtVb4'
+    recaptcha_secure:       false
+    recaptcha_locale_key:   kernel.default_locale
+    recaptcha_enabled:      true
+
+    cicero_login: ACTL3C
+    cicero_password: First50L3C
+
+    android_api_key: AIzaSyATaBdlsU1q_xZnETbklseTp_vTx7rNUUw
+    android_app: 840335271357
+
+    ios_is_sanbox: false
+    ios_pem_path:  /srv/certs/apns-dev-civix.pem
+    ios_passphrase: ~
+    sunlightapi_token: 389db47962a64accae30b8948c397a6d
+    
+    balanced_payment_api_key: ak-test-223c13hVsxbcGMaqCXq3tleHvMCXeXRBR
+    balanced_payment_marketplace_user_id: TEST-MP7ByVfFJSMah8VMM0blIek6
+
+    stripe_api_key:  sk_live_3ysnRoVv7bbCHtxrRPvNUrQg
+    stripe_publishable_key: pk_live_hRBIgf1WvZ1qyhDpP3KQHEyE
+
+    rabbitmq_connections:
+        default: { host: 'localhost', port: 5672, user: 'civix', password: 'civix', vhost: 'civix' }
+
+    mailgun_public: pubkey-d74e021acaeaf1ca97949c8a16899e93
+    mailgun_private: key-de1771b1c0056a4895cccd34f425ffe7

@@ -1,0 +1,20 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}MicroPetition Details{% endblock %}
+
+{% block content %}
+<nav class="submenu">
+    {{ mopa_bootstrap_navbar('microPetitionMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+</nav>
+<legend>{{ petition.title }}</legend>
+<div class="row q-results">
+    {% for item in statistics %}
+        <div class="span12">{{ item.option }}</div>
+        <div class="span11">
+            <i style="background: {{ item.color }}; width: {{ item.percent_width }}%;"></i>
+        </div>
+        <div class="span1">{{ item.percent_answer }}%</div>
+        <div class="span12"><hr></div>
+    {% endfor %}
+</div>
+{% endblock content %}

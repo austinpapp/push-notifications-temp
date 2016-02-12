@@ -1,0 +1,43 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Manage Representatives{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('manageMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="span1">{{ knp_pagination_sortable(pagination, 'Id', 'r.id') }}</th>
+                        <th class="span5">Name</th>
+                        <th class="span4">Email</th>
+                        <th class="span2">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rep in pagination %}
+                    <tr>
+                        <td>{{ rep.id }}</td>
+                        <td>{{ rep.firstName }} {{ rep.lastName }}</td>
+                        <td>{{ rep.email }}</td>
+                        <td class="table-options"><form action="{{ path('civix_front_superuser_representative_remove', {'id': rep.id}) }}" method="POST"><input type="hidden" name="_token" value="{{ csrf_token('remove_representative_' ~ rep.id) }}"><input type="submit" class="btn btn-link" value="Remove" /></form>
+                            <a href="{{ path('civix_front_superuser_representative_limits',{'id': rep.id}) }}" title="Limits"><i class="icon-wrench"></i>Limits</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center">Table is empty.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

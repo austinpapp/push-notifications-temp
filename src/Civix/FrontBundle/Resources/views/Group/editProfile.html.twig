@@ -1,0 +1,23 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Edit profile{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="span12">
+            <form id="avatar-form" class="form-horizontal" action="{{ path('civix_front_group_crop_avatar') }}" enctype="multipart/form-data" method="POST">
+                {{ form_widget(avatarForm) }}
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <form id="profile-form" class="form-horizontal" action="{{ path('civix_front_group_update_profile') }}" method="POST">
+                {{ form_widget(profileForm) }}
+                <div class="form-actions">
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

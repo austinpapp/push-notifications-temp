@@ -1,0 +1,16 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Send invites for petitions{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="span7">
+            <h4>Invites / {{ price }}$</h4>
+            <p>Card: {{ card.name }}</p>
+            <form action="" method="post">
+                {{ form_widget(form._token) }}
+                <input type="submit" class="btn btn-primary" value="Pay">
+            </form>
+        </div>
+    </div>
+{% endblock content %}

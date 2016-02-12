@@ -1,0 +1,32 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Edit post{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form action="" method="POST" enctype="multipart/form-data">
+            <legend>Edit post</legend>
+            {{ form_rest(form) }}
+            <div class="form-actions">
+                <input type="submit" value="Edit" class="btn btn-primary">
+                <a class="btn" href="{{ path('civix_front_' ~ app.user.type ~ '_post_index') }}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/vendor/markdown/bootstrap-markdown.js'
+    '@CivixFrontBundle/Resources/public/js/vendor/markdown/markdown.js'
+    '@CivixFrontBundle/Resources/public/js/vendor/markdown/to-markdown.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script>
+        $("#post_content").markdown({autofocus:false,savable:false,iconlibrary:'fa'})
+    </script>
+    {% endjavascripts %}
+{% endblock foot_script %}

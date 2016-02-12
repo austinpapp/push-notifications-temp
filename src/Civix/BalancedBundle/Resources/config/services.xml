@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="civix_balanced.payment_calls" class="Civix\BalancedBundle\Service\BalancedPaymentCalls">
+            <argument>%civix_balanced.api_key%</argument>
+        </service>
+
+        <service id="civix_balanced.payment_manager" class="Civix\BalancedBundle\Service\BalancedPaymentManager">
+            <argument type="service" id="civix_balanced.payment_calls" />
+            <argument type="service" id="logger" />
+            <argument>%civix_balanced.user_class%</argument>
+            <argument>%civix_balanced.marketplace_user_id%</argument>
+            <argument>%kernel.debug%</argument>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="well">
+        <p>
+            Account: {{ subscription.label }}
+            {% if subscription.enabled == false and subscription.isNotFree %}
+                (<span style="color: red">canceled</span>)
+            {% endif %}
+        </p>
+        {% if subscription.isActive %}
+            <p>Expire at: {{ subscription.expiredAt|date('D, d M y H:i:s O') }}</p>
+        {% elseif subscription.isNotFree %}
+            <p class="warning">Expired</p>
+        {% endif %}
+
+        <p><a href="{{ path('civix_front_' ~ app.user.type ~ '_subscription_index') }}">Manage subscription</a></p>
+    </div>
+</div>

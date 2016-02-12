@@ -1,0 +1,14 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Homepage{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span8">
+        <p>Hello representative manager</p>
+    </div>
+    <div class="span4">
+        {{ render(controller('CivixFrontBundle:Representative/Subscription:statusWidget')) }}
+    </div>
+</div>
+{% endblock %}

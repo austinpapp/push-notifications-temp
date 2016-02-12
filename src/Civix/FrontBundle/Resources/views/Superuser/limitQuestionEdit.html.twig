@@ -1,0 +1,21 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Edit limit of question{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form class="form-horizontal" action="{{ path(updatePath, {'id': app.request.get('id')}) }}" method="POST">
+            <fieldset>
+                <legend>Edit limit of question</legend>
+                {{ form_errors(questionLimitForm) }}
+                {{ form_row(questionLimitForm.questionLimit) }}
+                {{ form_rest(questionLimitForm) }}
+                <div class="form-actions">
+                    <input type="submit" class="btn btn-primary bt" value="Save" />
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock content %}

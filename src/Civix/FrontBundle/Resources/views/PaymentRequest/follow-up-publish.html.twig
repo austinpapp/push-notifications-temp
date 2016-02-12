@@ -1,0 +1,28 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Follow Up Payment Requests{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="span12">
+            <p><strong>Payment request:</strong> {{ paymentRequest.title }} </p>
+            <p><strong>Petition:</strong> {{ petition.petitionTitle }}</p>
+            <p><strong>Signed:</strong> {{ users|length }}</p>
+        </div>
+        <br>
+        <br>
+        <div class="span12">
+            <form method="post">
+                {{ form_widget(form) }}
+                <input name="user_count" value="{{ users|length }}" type="hidden">
+                {% if hasCard %}
+                    <input type="submit" class="btn btn-primary" value="Pay & Publish">
+                {% else %}
+                    <a class="btn btn-primary" data-open-card-from>Add Card</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    {{ include('CivixFrontBundle:PaymentSettings:stripe.html.twig') }}
+{% endblock content %}

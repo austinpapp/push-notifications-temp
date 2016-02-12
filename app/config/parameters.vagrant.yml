@@ -1,0 +1,44 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     <%= scope.lookupvar('project::params::db_name') %>
+    database_user:     <%= scope.lookupvar('project::params::db_user') %>
+    database_password: <%= scope.lookupvar('project::params::db_password') %>
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    locale:            en
+    secret:            <%= scope.lookupvar('project::params::secret') %>
+
+    recaptcha_public_key:   here_is_your_public_key
+    recaptcha_private_key:  here_is_your_private_key
+    recaptcha_secure:       false
+    recaptcha_locale_key:   kernel.default_locale
+    recaptcha_enabled:      true
+
+    cicero_login: aplotnikov
+    cicero_password: aplotnikov
+
+    android_api_key: android_api_key
+    android_app: app_key
+
+    ios_is_sanbox: true
+    ios_pem_path: /path/to/certs
+    ios_passphrase: passphrase
+
+    sunlightapi_token: ~
+    
+    balanced_payment_api_key: api_key
+    balanced_payment_marketplace_user_id: marketplace_user_id
+
+    stripe_api_key:  sk_test_vpedTPsiXZZ8SSwS4isZzHWw
+    stripe_publishable_key:  pk_test_QUgSE3ZhORW9yoDuCkMjnaA2
+
+    domain: powerli.ne
+
+    rabbitmq_connections:
+        default: { host: 'localhost', port: 5672, user: 'guest', password: 'guest', vhost: '/' }

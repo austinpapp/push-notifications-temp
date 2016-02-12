@@ -1,0 +1,1 @@
+<?php return unserialize('a:2:{i:0;O:48:"Symfony\\Component\\Validator\\Constraints\\Callback":2:{s:7:"methods";a:1:{i:0;s:19:"isCrowdfundingValid";}s:6:"groups";a:1:{i:0;s:14:"payment-manage";}}i:1;O:27:"Doctrine\\ORM\\Mapping\\Entity":2:{s:15:"repositoryClass";s:57:"Civix\\CoreBundle\\Repository\\Poll\\PaymentRequestRepository";s:8:"readOnly";b:0;}}');

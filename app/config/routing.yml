@@ -1,0 +1,78 @@
+civix_api:
+    resource: "@CivixApiBundle/Controller/"
+    type:     annotation
+    prefix:   /api
+    defaults: { _format: 'json' }
+
+civix_api_public:
+    resource: "@CivixApiBundle/Controller/PublicApi"
+    type:     annotation
+    prefix:   /api-public
+    defaults: { _format: 'json' }
+
+civix_api_leader:
+    resource: "@CivixApiBundle/Controller/Leader/"
+    type:     annotation
+    prefix:   /api-leader
+    defaults: { _format: 'json' }
+
+civix_front_default:
+    resource: "@CivixFrontBundle/Controller/DefaultController.php"
+    type: annotation
+    prefix:   /
+
+civix_front_representative_login_check:
+    pattern:  /representative/login_check
+
+civix_representative_logout:
+    pattern:  /representative/logout
+
+civix_front_representative_reg:
+    resource: "@CivixFrontBundle/Controller/RepresentativeController.php"
+    prefix:   /representative
+    type: annotation
+
+civix_front_representative_area:
+    resource: "@CivixFrontBundle/Controller/Representative/"
+    prefix:   /representative
+    type: annotation
+    schemes: [ "https" ]
+
+civix_front_group_login_check:
+    pattern:  /group/login_check
+
+civix_group_logout:
+    pattern:  /group/logout
+
+civix_front_group:
+    resource: "@CivixFrontBundle/Controller/GroupController.php"
+    prefix:   /group
+    type: annotation
+
+civix_front_group_area:
+    resource: "@CivixFrontBundle/Controller/Group/"
+    prefix:   /group
+    type: annotation
+    schemes: [ "https" ]
+
+civix_front_superuser_login_check:
+    pattern:  /superuser/login_check
+
+civix_superuser_logout:
+    pattern:  /superuser/logout
+
+civix_front_superuser_area:
+    resource: "@CivixFrontBundle/Controller/Superuser/"
+    prefix:   /superuser
+    type: annotation
+    schemes: [ "https" ]
+
+civix_superuser:
+    resource: "@CivixFrontBundle/Controller/SuperuserController.php"
+    prefix:   /superuser
+    type: annotation
+
+civix_account:
+    resource: "@CivixFrontBundle/Controller/AccountController.php"
+    prefix:   /account
+    type: annotation 

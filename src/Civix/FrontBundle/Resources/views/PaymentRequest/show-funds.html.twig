@@ -1,0 +1,14 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Funds{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <div class="row">
+            <div class="span3">Amount</div>
+            <div class="span5">${{ (amount / 100) | number_format(2, '.', ',') }}</div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

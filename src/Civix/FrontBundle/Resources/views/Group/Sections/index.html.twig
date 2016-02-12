@@ -1,0 +1,53 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Group Sections{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('groupMemberMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    {% if sections|length < 5 %}
+    <nav class="submenu">
+        <ul class="nav nav-pills pull-right">
+            <li class="first last">
+                <a href="{{ path('civix_front_group_sections_new') }}">Create new group section</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+
+<div class="row">
+    {% for section in sections %}
+    <div class="span12">
+        <h4><a href="{{ path('civix_front_group_sections_view', {'id': section.id}) }}" class="btn btn-link">{{ section.title }}</a></h4>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+            {% for user in section.users | slice(0, 5) %}
+                <tr>
+                    <td>{{ user.firstName }} {{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2" style="text-align: center">No users in section.</td>
+                </tr>
+            {% endfor %}
+            {% if section.users.count() > 5 %}
+                <tr>
+                    <td colspan="2">
+                        <p class="text-right"><a href="{{ path('civix_front_group_sections_view', {'id': section.id}) }}" class="btn btn-link">View all</a></p>
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+
+    </div>
+    {% else %}
+        <div  class="span12" style="text-align: center">No group sections.</div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

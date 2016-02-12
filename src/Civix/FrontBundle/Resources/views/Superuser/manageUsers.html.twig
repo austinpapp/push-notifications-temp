@@ -1,0 +1,46 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Manage Users{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('manageMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="span1">{{ knp_pagination_sortable(pagination, 'Id', 'u.id') }}</th>
+                        <th class="span3">{{ knp_pagination_sortable(pagination, 'Username', 'u.username') }}</th>
+                        <th class="span3">Name</th>
+                        <th class="span3">{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+                        <th class="span2">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in pagination %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.firstName }} {{ user.lastName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <a style="margin-left: 13px;" href="{{ path('civix_front_superuser_reset_user_password', {id: user.id, token: token}) }}">Reset password</a>
+                            <form action="{{ path('civix_front_superuser_user_remove', {'id': user.id}) }}" method="POST"><input type="hidden" name="_token" value="{{ csrf_token('remove_user_' ~ user.id) }}"><input type="submit" class="btn btn-link" value="Remove" /></form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center">Table is empty.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,5 @@
+{% for value in fieldValues %}
+    <b>{{ value.field.fieldName }} </b> {{ value.fieldValue }} <br/>
+{% else %}
+    No fields in group
+{% endfor %}

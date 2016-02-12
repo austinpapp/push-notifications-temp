@@ -1,0 +1,40 @@
+imports:
+    - { resource: config_dev.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        enabled: false
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+
+doctrine:
+    dbal:
+        dbname: civix_test
+
+parameters:
+    ciceroapi_class: Civix\CoreBundle\Tests\Mock\Service\CiceroCalls
+    old_sound_rabbit_mq.producer.class: Civix\CoreBundle\Tests\Mock\RabbitMq\Producer
+    old_sound_rabbit_mq.connection.class: Civix\CoreBundle\Tests\Mock\RabbitMq\AMQPConnection
+
+services:
+    civix_balanced.payment_manager:
+        class: Civix\CoreBundle\Tests\Mock\Service\BalancedPaymentManager
+        arguments:
+            - @civix_balanced.payment_calls
+            - @logger
+            - %civix_balanced.user_class%
+            - %civix_balanced.marketplace_user_id%
+            - %kernel.debug%
+    civix_core.push_task:
+        class: Civix\CoreBundle\Tests\Mock\Service\PushTask
+        arguments:
+            - @old_sound_rabbit_mq.push_queue_producer
+            - %kernel.logs_dir%

@@ -1,0 +1,56 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Group members{% endblock %}
+
+{% block content %}
+<nav class="submenu">
+    {{ mopa_bootstrap_navbar('groupMemberMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+</nav>
+<div class="row">
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="span1">{{ knp_pagination_sortable(pagination, 'ID', 'u.id') }}</th>
+                    <th class="span6">Name</th>
+                    <th class="span2">{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+                    <th class="span3">
+                        Options
+                        {% if package.isGroupJoinManagementAvailable == false %}
+                            <br> (<i>not available for free account</i>)
+                        {% endif %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gu in pagination %}
+                    <tr>
+                        <td>{{ gu.user.id }}</td>
+                        <td><a href="{{ path('civix_front_group_members_fields', {'id': gu.user.id})}}">
+                            {{ gu.user.firstName }} {{ gu.user.lastName }}
+                            </a>
+                        </td>
+                        <td>{{ gu.user.email }}</td>
+                        <td>
+                            {% if package.isGroupJoinManagementAvailable %}
+                                <form action="{{ path('civix_front_group_members_remove', {'id': gu.user.id}) }}" method="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('remove_members_' ~ gu.user.id) }}">
+                                    <input type="submit" class="btn btn-link" value="Remove" />
+                                </form>
+                            {% endif %}
+                       </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center">Table is empty.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

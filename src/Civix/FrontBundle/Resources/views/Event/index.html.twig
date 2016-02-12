@@ -1,0 +1,69 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Events{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        <ul class="nav nav-pills pull-right">
+            <li class="first last">
+                <a href="{{ path('civix_front_' ~ app.user.type ~ '_leaderevent_new') }}">Create New Event</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <h4>New Entries</h4>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="span6">Title</th>
+                    <th class="span3">{{ knp_pagination_sortable(paginationNew, 'Created date', 'pr.createdAt') }}</th>
+                    <th class="span3">Options</th>
+                </tr>
+                {% for item in paginationNew %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.createdAt|date("d-m-Y H:i") }}</td>
+                        <td class="table-options">
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_leaderevent_publish', {'id': item.id, 'token': token}) }}" class="btn btn-link">Publish</a>
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_leaderevent_edit', {'id': item.id}) }}" class="btn btn-link">Edit</a>
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_leaderevent_delete', {'id': item.id, 'token': token}) }}" class="btn btn-link">Remove</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center">No new entries.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(paginationNew) }}
+            </div>
+        </div>
+        <div class="span12">
+            <h4>Published Events</h4>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="span6">Title</th>
+                    <th class="span3">{{ knp_pagination_sortable(paginationPublished, 'Published date', 'pr.publishedAt') }}</th>
+                    <th class="span3">Options</th>
+                </tr>
+                {% for item in paginationPublished %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.publishedAt|date("d-m-Y H:i") }}</td>
+                        <td><a href="{{ path('civix_front_' ~ app.user.type ~ '_report_event', {'id': item.id}) }}" class="btn btn-link">Results</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="43" style="text-align: center">No published events.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(paginationPublished) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

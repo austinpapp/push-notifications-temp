@@ -1,0 +1,24 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Edit group section{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('groupMemberMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+
+        <div class="span12">
+            <form class="form-horizontal" action="{{ path('civix_front_group_sections_edit', {'id': section.id}) }}" method="POST">
+                {{ form_widget(form) }}
+                <div class="form-actions">
+                    <input type="submit" value="Save" class="btn btn-primary">
+                    <a class="btn" href="{{ path('civix_front_group_sections_index') }}">Cancel</a>
+                    <div style="float: right">
+                        <a href="{{ path('civix_front_group_sections_delete', {'id': section.id, 'token': token}) }}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Payment Information{% endblock %}
+
+{% block content %}
+
+<div>
+    <h3>Bank Account Information</h3>
+    <table class="table">
+        {% if bankAccounts %}
+            {% for bankAccount in bankAccounts %}
+                <tr>
+                    <td>{{ bankAccount.bank_name }} {{ bankAccount.last4 }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        <tr>
+            <td><a class="btn btn-primary" data-open-account-from>{{ bankAccounts|length ? 'Change' : 'Add' }}</a></td>
+        </tr>
+    </table>
+    <br><br><br>
+    <h3>Card Information</h3>
+    <table class="table">
+        {% if cards %}
+            {% for card in cards %}
+                <tr>
+                    <td>{{ card.brand }} {{ card.last4 }}</td>
+                    <td>
+                        <a class="btn btn-danger btn-small" data-remove-card="{{ card.id }}">Remove</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        <tr>
+            <td colspan="2"><a class="btn btn-primary" data-open-card-from>{{ cards|length ? 'Change' : 'Add' }}</a></td>
+        </tr>
+    </table>
+</div>
+
+    {{ include('CivixFrontBundle:PaymentSettings:stripe.html.twig') }}
+
+{% endblock content %}

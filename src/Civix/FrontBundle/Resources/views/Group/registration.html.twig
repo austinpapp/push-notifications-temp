@@ -1,0 +1,16 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Group registration{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form class="form-horizontal" action="{{ path('civix_front_group_registration') }}" method="POST">
+            {{ form_widget(form) }}
+            <div class="form-actions">
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

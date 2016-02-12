@@ -1,0 +1,14 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Homepage{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span8">
+        <p>Hello group manager</p>
+    </div>
+    <div class="span4">
+        {{ render(controller('CivixFrontBundle:Group/Subscription:statusWidget')) }}
+    </div>
+</div>
+{% endblock %}

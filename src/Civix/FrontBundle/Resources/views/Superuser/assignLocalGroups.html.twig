@@ -1,0 +1,23 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Local Groups - {{ group.officialName }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form class="form-horizontal" action="{{ path('civix_front_superuser_local_groups_assign_save', {'group':group.id})}}" method="POST">
+            <fieldset>
+                <legend>Representatives in local group "{{ group.officialName }}"</legend>
+                {{ form_errors(localGroupForm) }}
+                {{ form_row(localGroupForm.localRepresentatives) }}
+                {{ form_rest(localGroupForm) }}                
+                <div class="form-actions">
+                    <input type="submit" class="btn btn-primary bt" value="Save" />
+                </div>
+            </fieldset>
+        </form>
+        
+        
+    </div>
+</div>
+{% endblock content %}

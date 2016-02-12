@@ -1,0 +1,45 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Question Archive{% endblock %}
+
+{% block content %}
+<nav class="submenu">
+    {{ mopa_bootstrap_navbar('questionMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+</nav>
+<div class="row">
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="span1">{{ knp_pagination_sortable(pagination, 'ID', 'q.id') }}</th>
+                    <th class="span7">{{ knp_pagination_sortable(pagination, 'Question Subject', 'q.subject') }}</th>
+                    <th class="span2">{{ knp_pagination_sortable(pagination, 'Created date', 'q.createdAt') }}</th>
+                    <th class="span2">{{ knp_pagination_sortable(pagination, 'Published date', 'q.publishedAt') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in pagination %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>
+                        <a href="{{ path('civix_front_' ~ app.user.type ~ '_question_details', {'id': question.id}) }}" class="btn btn-link">
+                            {{ question.subject }}
+                        </a>
+                    </td>
+                    <td>{{ question.createdAt|date("d-m-Y H:i") }}</td>
+                    <td>{{ question.publishedAt|date("d-m-Y H:i") }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center">Table is empty.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>
+{% endblock content %}

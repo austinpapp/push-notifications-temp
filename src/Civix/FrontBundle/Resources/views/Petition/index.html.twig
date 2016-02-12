@@ -1,0 +1,72 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Petitions{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('petitionMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <h4>New Entries</h4>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="span6">Title</th>
+                    <th class="span3">{{ knp_pagination_sortable(paginationNew, 'Created date', 'p.createdAt') }}</th>
+                    <th class="span3">Options</th>
+                </tr>
+                {% for item in paginationNew %}
+                    <tr>
+                        <td>{{ item.petitionTitle }}</td>
+                        <td>{{ item.createdAt|date("d-m-Y H:i") }}</td>
+                        <td class="table-options">
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_petition_publish', {'id': item.id, 'token': token}) }}" class="btn btn-link">Publish</a>
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_petition_edit', {'id': item.id}) }}" class="btn btn-link">Edit</a>
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_petition_delete', {'id': item.id, 'token': token}) }}" class="btn btn-link">Remove</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center">No new entries.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(paginationNew) }}
+            </div>
+        </div>
+        <div class="span12">
+            <h4>Published Petitions</h4>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="span6">Title</th>
+                    <th class="span3">{{ knp_pagination_sortable(paginationPublished, 'Published date', 'p.publishedAt') }}</th>
+                    <th>Signed</th>
+                    <th></th>
+                </tr>
+                {% for item in paginationPublished %}
+                    <tr>
+                        <td>{{ item[0].petitionTitle }}</td>
+                        <td>{{ item[0].publishedAt|date("d-m-Y H:i") }}</td>
+                        <td>{{ item[0].answersCount }}</td>
+                        <td>{%if app.user.type == 'group' %}<a href="{{ path('civix_front_' ~ app.user.type ~ '_petition_invite', {'id': item[0].id, 'token': token}) }}">Send invites</a> {%endif%}
+                            {%if item['countEmails']>0 %}
+                                <a href="{{ path('civix_front_' ~ app.user.type ~ '_payment_buyemails', {'petition': item[0].id}) }}">Buy emails ({{ item['countEmails']}} - {{ (item['countEmails'] * emailPrice)/100}}$)</a>
+                                <br><a href="{{ path('civix_front_' ~ app.user.type ~ '_paymentrequest_followup', {'petition': item[0].id}) }}">Follow-up payment request</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="43" style="text-align: center">No published petitions.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(paginationPublished) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

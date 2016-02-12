@@ -1,0 +1,49 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Reports - Questions{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="page-header">
+        <h4><small>{{ question.subject }}</small></h4>
+    </div>
+    {% for item in statistics %}
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <td>
+            <div class="span12">{{ item.option.value }}</div>
+            <div class="span9 progress">
+                <div class="bar" style="background: {{ item.color }}; width: {{ item.percent_answer }}%;"></div>
+            </div>
+            <div class="span1">{{ item.percent_answer }}%</div>
+            <div class="span2 text-info"><i class="icon-comment"></i> {{ item.option.answers|length }} Comments</div>
+            </td>
+        </tr>
+        {% for answer in item.option.answers %}
+            {% if loop.index == 6 %}
+            <tr>
+                <td>
+                    <div class="span2 offset10"><button class="btn btn-primary">See More</button></div>
+                </td>
+            <tr>
+            {% endif %}
+            <tr {% if loop.index > 5 %}style="display:none"{%endif%}>
+                <td>
+                     <div class="span12"><span class="text-info">{{ answer.user.username }}</span> {{ answer.comment }}</div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+</div>
+{% endblock content %}
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/question.report.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

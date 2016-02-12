@@ -1,0 +1,30 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Subscriptions{% endblock %}
+
+{% block content %}
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="span7">
+            <h4>{{ package.title }} / 
+                {%if discountPrice == package.price %}
+                    $<span class="price-item">{{ package.price }}</span>
+                {%else%}
+                    $<s class="price-item">{{ package.price }}</s> $<span class="text-error discount-price-item">{{discountPrice}}</span>
+                {%endif%}
+            </h4>
+
+            <form action="" method="post">
+                {{ form_widget(form) }}
+                <div class="form-actions">
+                    {% if hasCard %}
+                        <input type="submit" class="btn btn-primary" value="Subscribe">
+                    {% else %}
+                        <a class="btn btn-primary" data-open-card-from>Add Card</a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{ include('CivixFrontBundle:PaymentSettings:stripe.html.twig') }}
+{% endblock content %}

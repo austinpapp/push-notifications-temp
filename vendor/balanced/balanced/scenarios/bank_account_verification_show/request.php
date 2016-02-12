@@ -1,0 +1,1 @@
+$verification = Balanced\BankAccountVerification::get("{{ request.uri }}");

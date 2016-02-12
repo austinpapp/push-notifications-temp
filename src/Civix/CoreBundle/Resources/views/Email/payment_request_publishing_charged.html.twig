@@ -1,0 +1,8 @@
+{% set data = history.getDataAsArray() %}
+<p>
+    ----------------------------------------------------------- <br>
+    Transaction Number: {{ history.getPublicId() }} <br>
+    Date: {{ data.created_at |date('D, d M y H:i:s O') }}<br>
+    Amount: ${{ data.amount / 100 }} <br>
+    -----------------------------------------------------------  <br>
+</p>

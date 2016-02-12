@@ -1,0 +1,41 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Manage Limits{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('manageMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="span5">Type</th>
+                        <th class="span4">Limit</th>
+                        <th class="span2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for limit in pagination %}
+                    <tr>
+                        <td>{{ limit.questionTypeName }}</td>
+                        <td>{{ limit.questionLimit }}</td>
+                        <td> <a href="{{ path('civix_front_superuser_limit_edit',{'id': limit.id}) }}"
+                               title="Edit"><i class="icon-pencil"></i>Edit</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center">Table is empty.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

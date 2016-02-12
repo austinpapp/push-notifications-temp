@@ -1,0 +1,1 @@
+<?php return unserialize('a:3:{i:0;O:30:"Doctrine\\ORM\\Mapping\\ManyToOne":4:{s:12:"targetEntity";s:8:"Question";s:7:"cascade";N;s:5:"fetch";s:4:"LAZY";s:10:"inversedBy";s:7:"answers";}i:1;O:32:"JMS\\Serializer\\Annotation\\Expose":0:{}i:2;O:32:"JMS\\Serializer\\Annotation\\Groups":1:{s:6:"groups";a:2:{i:0;s:8:"api-poll";i:1;s:16:"api-answers-list";}}}');

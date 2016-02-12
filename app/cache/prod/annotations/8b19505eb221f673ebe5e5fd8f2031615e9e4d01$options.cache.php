@@ -1,0 +1,1 @@
+<?php return unserialize('a:3:{i:0;O:32:"JMS\\Serializer\\Annotation\\Expose":0:{}i:1;O:32:"JMS\\Serializer\\Annotation\\Groups":1:{s:6:"groups";a:2:{i:0;s:18:"api-petitions-info";i:1;s:24:"api-leader-micropetition";}}i:2;O:34:"JMS\\Serializer\\Annotation\\Accessor":2:{s:6:"getter";s:10:"getOptions";s:6:"setter";N;}}');

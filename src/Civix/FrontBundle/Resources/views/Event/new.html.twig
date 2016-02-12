@@ -1,0 +1,75 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Create new event{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form action="" method="POST" enctype="multipart/form-data">
+            <legend>Create new event</legend>
+            {{ form_row(form.leaderEvent.title) }}
+            {{ form_row(form.leaderEvent.subject) }}
+            {{ form_row(form.leaderEvent.startedAt) }}
+            {{ form_row(form.leaderEvent.finishedAt) }}
+            
+            {{ form_row(form.leaderEvent.isAllowOutsiders) }}
+
+            <script id="option-row-tpl" type="text/template">
+                <tr>
+                    <td class="form-horizontal"><b></b>. {{ form_widget(form.leaderEvent.options.vars.prototype) }}</td>
+                    <td style="text-align: center"><a href="#" class="remove-option"><i class="icon-remove"></i></a></td>
+                </tr>
+            </script>
+            <table id="editable-options-list" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Options</th>
+                        <th class="span1">Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="empty-table-message{% if form.leaderEvent.options|length > 0 %} hide{% endif %}">
+                        <td colspan="2" style="text-align: center"><b>Please add a few options.</b></td>
+                    </tr>
+                    {% for option in form.leaderEvent.options %}
+                        <tr>
+                            <td><b>{{ loop.index }}</b>. {{ form_widget(option) }}</td>
+                            <td style="text-align: center"><a href="#" class="remove-option"><i class="icon-remove"></i></a></td>
+                        </tr>
+                    {% else %}
+                        {% do form.leaderEvent.options.setRendered() %}
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><a href="#" class="add-option"><i class="icon-plus"></i> Add new option</a></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            {%  include "CivixFrontBundle::educational-context.html.twig" with {'form':form.educationalContext} %}
+
+            {% if isShowGroupSection %}
+                {%  include "CivixFrontBundle::group-sections.html.twig" with {'question':form.leaderEvent} %}
+            {% endif %}
+            
+            {{ form_widget(form._token) }}
+            <div class="form-actions">
+                <input type="submit" value="Create" class="btn btn-primary">
+                <a class="btn" href="{{ path('civix_front_' ~ app.user.type ~ '_leaderevent_index') }}">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/question.create.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

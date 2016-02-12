@@ -1,0 +1,69 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Create required fields{% endblock %}
+
+{% block content %}
+<script id="option-row-tpl" type="text/template">
+    <tr>
+        <td><b></b>. {{ form_widget(requiredFieldsForm.fields.vars.prototype) }}</td>
+        <td style="text-align: center"><a href="#" class="remove-option"><i class="icon-remove"></i></a></td>
+    </tr>
+</script>
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('settingsMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+<div class="row">
+    <div class="span12">
+        {% if package.isGroupJoinManagementAvailable %}
+        <form action="{{ path('civix_front_group_fields_update') }}" method="POST" enctype="multipart/form-data">
+             <fieldset>
+                <legend>Required fields</legend>
+                {{ form_errors(requiredFieldsForm) }}
+                <table id="editable-options-list" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="span1">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="empty-table-message{% if requiredFieldsForm.fields|length > 0 %} hide{% endif %}">
+                            <td colspan="2" style="text-align: center"><b>Please add a few fields (max 5).</b></td>
+                        </tr>
+                        {% for field in requiredFieldsForm.fields %}
+                        <tr>
+                            <td><b>{{ loop.index }}</b>. {{ form_widget(field) }}</td>
+                            <td style="text-align: center"><a href="#" class="remove-option"><i class="icon-remove"></i></a></td>
+                        </tr>
+                        {% else %}
+                            {% do requiredFieldsForm.fields.setRendered() %}
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><a href="#" class="add-option"><i class="icon-plus"></i> Add new field</a></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                {{ form_rest(requiredFieldsForm) }}
+                <div class="form-actions">
+                    <input type="submit" class="btn btn-primary bt" value="Save" />
+                </div>
+            </fieldset>
+        </form>
+        {% else %}
+            <h5>Not available for free account</h5>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/group.fields.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

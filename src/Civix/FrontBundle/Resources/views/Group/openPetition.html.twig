@@ -1,0 +1,47 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Micro-petitions{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('microPetitionMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span14">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="span1">{{ knp_pagination_sortable(pagination, 'ID', 'p.id') }}</th>
+                    <th class="span3">{{ knp_pagination_sortable(pagination, 'Title', 'p.title') }}</th>
+                    <th class="span4">Subject</th>
+                    <th class="span2">{{ knp_pagination_sortable(pagination, 'Created date', 'p.createdAt') }}</th>
+                    <th class="span2">{{ knp_pagination_sortable(pagination, 'Expire date', 'p.expireAt') }}</th>
+                    <th class="span2">Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for petition in pagination %}
+                    <tr>
+                        <td>{{ petition.id }}</td>
+                        <td>{{ petition.title }}</td>
+                        <td>{{ petition.petitionBody }}</td>
+                        <td>{{ petition.createdAt|date("d-m-Y H:i") }}</td>
+                        <td>{{ petition.expireAt|date("d-m-Y H:i") }}</td>
+                        <td class="table-options">
+                            <a href="{{ path('civix_front_petitions_boost', {'id': petition.id}) }}" class="btn btn-link">Boost</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align: center">Table is empty.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation">
+                
+            </div>
+        </div>
+    </div>
+{% endblock content %}

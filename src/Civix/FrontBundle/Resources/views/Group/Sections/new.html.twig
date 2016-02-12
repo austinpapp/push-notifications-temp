@@ -1,0 +1,20 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Create new group section{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('groupMemberMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <form class="form-horizontal" action="{{ path('civix_front_group_sections_new') }}" method="POST">
+                {{ form_widget(form) }}
+                <div class="form-actions">
+                    <input type="submit" value="Create" class="btn btn-primary">
+                    <a class="btn" href="{{ path('civix_front_group_sections_index') }}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

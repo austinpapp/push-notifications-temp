@@ -1,0 +1,38 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Create new petition{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form action="" method="POST" enctype="multipart/form-data">
+            <legend>Create new petition</legend>
+            {{ form_row(form.petition.petitionTitle) }}
+            {{ form_row(form.petition.petitionBody) }}
+            {{ form_row(form.petition.isOutsidersSign) }}
+
+            {%  include "CivixFrontBundle::educational-context.html.twig" with {'form':form.educationalContext} %}
+
+            {% if isShowGroupSection %}
+                {%  include "CivixFrontBundle::group-sections.html.twig" with {'question':form.petition} %}
+            {% endif %}
+            
+            {{ form_widget(form._token) }}
+            <div class="form-actions">
+                <input type="submit" value="Create" class="btn btn-primary">
+                <a class="btn" href="{{ path('civix_front_' ~ app.user.type ~ '_petition_index') }}">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/question.create.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

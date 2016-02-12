@@ -1,0 +1,163 @@
+services:
+    civix_front.navbar_menu_builder:
+        class: Civix\FrontBundle\Menu\MenuBuilder
+        scope: request
+        arguments: [ '@knp_menu.factory', '@security.context' ]
+
+
+    civix_front.navbar_main_menu:
+        class: Knp\Menu\MenuItem
+        factory_service: civix_front.navbar_menu_builder
+        factory_method: createMainMenu
+        arguments: [ '@request' ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
+
+
+    civix_front.navbar_question_menu:
+        class: Knp\Menu\MenuItem
+        factory_service: civix_front.navbar_menu_builder
+        factory_method: createQuestionMenu
+        arguments: [ '@request' ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
+
+    civix_front.navbar_question_options:
+        class: Knp\Menu\MenuItem
+        factory_service: civix_front.navbar_menu_builder
+        factory_method: createQuestionOptions
+        arguments: [ '@request' ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
+
+    civix_front.navbar_manage_menu:
+        class: Knp\Menu\MenuItem
+        factory_service: civix_front.navbar_menu_builder
+        factory_method: createManageMenu
+        arguments: [ '@request' ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
+
+    civix_front.navbar_micro_petition_menu:
+        class: Knp\Menu\MenuItem
+        factory_service: civix_front.navbar_menu_builder
+        factory_method: createMicroPetitionMenu
+        arguments: [ '@request' ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
+
+    civix_front.navbar_petition_menu:
+        class: Knp\Menu\MenuItem
+        factory_service: civix_front.navbar_menu_builder
+        factory_method: createPetitionMenu
+        arguments: [ '@request' ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
+
+    civix_front.navbar_settings_menu:
+        class: Knp\Menu\MenuItem
+        factory_service: civix_front.navbar_menu_builder
+        factory_method: createSettingsMenu
+        arguments: [ '@request' ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }
+
+    civix_front.navbar_group_members_menu:
+        class: Knp\Menu\MenuItem
+        factory_service: civix_front.navbar_menu_builder
+        factory_method: createGroupUserMenu
+        arguments: [ '@request' ]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: main }        
+
+    civix_front.navbar:
+        class: '%mopa_bootstrap.navbar.generic%'
+        scope: request
+        tags:
+            - { name: mopa_bootstrap.navbar, alias: frontendNavbar }
+        arguments:
+            - { leftmenu: @civix_front.navbar_main_menu= }
+            - {}
+            - {}
+
+    civix_front.question:
+        class: '%mopa_bootstrap.navbar.generic%'
+        scope: request
+        tags:
+            - { name: mopa_bootstrap.navbar, alias: questionMenu }
+        arguments:
+            - { menu: @civix_front.navbar_question_menu=, options: @civix_front.navbar_question_options= }
+            - {}
+            - {}
+
+    civix_front.manage:
+        class: '%mopa_bootstrap.navbar.generic%'
+        scope: request
+        tags:
+            - { name: mopa_bootstrap.navbar, alias: manageMenu }
+        arguments:
+            - { menu: @civix_front.navbar_manage_menu= }
+            - {}
+            - {}
+
+    civix_front.micro_petition:
+        class: '%mopa_bootstrap.navbar.generic%'
+        scope: request
+        tags:
+            - { name: mopa_bootstrap.navbar, alias: microPetitionMenu }
+        arguments:
+            - { menu: @civix_front.navbar_micro_petition_menu= }
+            - {}
+            - {}
+
+    civix_front.petition:
+        class: '%mopa_bootstrap.navbar.generic%'
+        scope: request
+        tags:
+            - { name: mopa_bootstrap.navbar, alias: petitionMenu }
+        arguments:
+            - { menu: @civix_front.navbar_petition_menu= }
+            - {}
+            - {}
+
+    civix_front.settings:
+        class: '%mopa_bootstrap.navbar.generic%'
+        scope: request
+        tags:
+            - { name: mopa_bootstrap.navbar, alias: settingsMenu }
+        arguments:
+            - { menu: @civix_front.navbar_settings_menu= }
+            - {}
+            - {}
+
+    civix_front.group_members:
+        class: '%mopa_bootstrap.navbar.generic%'
+        scope: request
+        tags:
+            - { name: mopa_bootstrap.navbar, alias: groupMemberMenu }
+        arguments:
+            - { menu: @civix_front.navbar_group_members_menu= }
+            - {}
+            - {}
+
+    civix_core.crop_image.form.type:
+        class: Civix\FrontBundle\Form\Type\CropImage
+        tags:
+            - { name: form.type, alias: crop_image }
+
+    civix_core.editable_avatar.form.type:
+        class: Civix\FrontBundle\Form\Type\EditableAvatar
+        tags:
+            - { name: form.type, alias: editable_avatar }
+
+    civix_front.form.representative.question:
+        class: Civix\FrontBundle\Form\Type\Poll\Representative\RepresentativeQuestion
+        arguments: [doctrine]

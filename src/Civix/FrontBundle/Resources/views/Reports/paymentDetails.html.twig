@@ -1,0 +1,74 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Reports - Payment request{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="page-header">
+        <h4><small>{{ question.title }}</small></h4>
+    </div>
+    {% for item in statistics if item.option.value != 'Ignore' %}
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <td>
+            <div class="span12">{{ item.option.value }}</div>
+            <div class="span9 progress">
+                <div class="bar" style="background: {{ item.color }}; width: {{ item.percent_answer }}%;"></div>
+            </div>
+            <div class="span1">{{ item.percent_answer }}%</div>
+            <div class="span2 text-info"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <table class="table table-bordered user-line">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>E-mail</th>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                        <th>Amount, $</th>
+                        <th>Donation Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+        {% for answer in item.option.answers %}
+            {% if loop.index == 6 %}
+            <tr>
+                <td colspan="6">
+                    <button class="btn btn-primary">See More</button>
+                </td>
+            <tr>
+            {% endif %}
+            <tr {% if loop.index > 5 %}style="display:none"{%endif%}>
+                {% if answer.privacy == 0 %}
+                    <td>{{ answer.user.username }}</td>
+                    <td>{{ answer.user.email }}</td>
+                    <td>{{ answer.user.address1 }} {{ answer.user.address2 }}, {{ answer.user.city }}, {{ answer.user.state }}, {{ answer.user.country }}</td>
+                    <td>{{ answer.user.phone }}</td>
+                    <td>{{ answer.paymentAmount }}</td>
+                    <td>{{ answer.createdAt|date('D, d M Y H:i:s') }}</td>
+                {% else %}
+                    <td>Anonymous</td>
+                    <td colspan="5">No permission provided</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+            </tbody>
+         </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    {% endfor %}
+</div>
+{% endblock content %}
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/event.report.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

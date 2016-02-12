@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="span11"><h5>Educational Context</h5></div>
+    <div class="span1"><h5>Remove</h5></div>
+</div>
+<script id="educational-item-row-tpl" type="text/template">
+    <td>{{ form_row(form.items.vars.prototype) }}</td>
+    <td style="text-align: center"><a href="#" class="remove-educational-item"><i class="icon-remove"></i></a></td>
+</script>
+<table id="educational-context-items" class="table table-striped">
+    {% for item in form.items %}
+
+    {% if item.vars.value.isEmpty() == false %}
+        <tr>
+            <td>
+                {% if item.text.vars.value %}
+                    {{ form_row(item.text) }}
+                {% elseif item.video.vars.value %}
+                    {{ form_row(item.video) }}
+                {% else %}
+                    {% if item.image.vars.value %}
+                        <img src="{{ vich_uploader_asset(item.vars.value, 'imageFile') }}" />
+                    {% endif %}
+                    {{ form_row(item.imageFile) }}
+                    {{ form_row(item.image) }}
+                {%  endif %}
+            </td>
+            <td style="text-align: center"><a href="#" class="remove-educational-item"><i class="icon-remove"></i></a></td>
+        </tr>
+    {% endif %}
+    {% else %}
+        {% do form.items.setRendered() %}
+    {% endfor %}
+</table>
+
+<div id="educational-add-btn" class="row{% if form.items|length >= 3 %} hide{% endif %}">
+    <div class="span2"><a href="#" id="add-educational-text" data-control=".text-control"><i class="icon-plus"></i> Add text</a></div>
+    <div class="span2"><a href="#" id="add-educational-image" data-control=".image-control"><i class="icon-plus"></i> Add picture</a></div>
+    <div class="span2"><a href="#" id="add-educational-video" data-control=".video-control"><i class="icon-plus"></i> Add video link</a></div>
+</div>

@@ -1,0 +1,47 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Payment Information{% endblock %}
+
+{% block content %}
+<div>
+    <div class="alert alert-error hide"></div>
+    <form class="form-horizontal" id="bank-account-form"></form>
+</div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
+    <script type="text/javascript">
+        balanced.init('/v1/marketplaces/{{ marketplaceToken }}');
+    </script>
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/payment.balanced.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(function () {
+            var $form = $('#bank-account-form').bankAccountForm({data: {
+                address_line1: '{{ app.user.officialAddress }}',
+                address_city: '{{ app.user.officialCity }}',
+                address_state: '{{ app.user.officialState }}'
+            }}).bind('onBankAccountCreate', function (e, data) {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ path('civix_front_' ~ app.user.type ~ '_paymentsettings_createbankaccountpost', {token: token}) }}',
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function () {
+                        window.location = '{{ path('civix_front_' ~ app.user.type ~ '_paymentsettings_index') }}';
+                    },
+                    error: function () {
+                        alert('Error Occurred');
+                        $form.renderBankForm();
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock foot_script %}

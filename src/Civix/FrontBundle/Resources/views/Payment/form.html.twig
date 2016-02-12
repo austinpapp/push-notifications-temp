@@ -1,0 +1,42 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}{{ formTitle }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="alert alert-error hide">
+    </div>
+    <div class="form-horizontal">
+         <fieldset>
+             <legend>{{ formTitle }}</legend>
+             {{ form_errors(form) }}
+             {{ form_row(form.name) }}
+             {{ form_row(form.number) }}
+             {{ form_row(form.expirationMonth) }}
+             {{ form_row(form.expirationYear) }}
+             {{ form_row(form.cvv) }}
+             
+             <form id="cardForm" action="" method="POST">
+                {{ form_rest(form) }}
+             </form>
+             <div class="form-actions">
+                 <input id="cc-submit" type="submit" class="btn btn-primary bt" value="Buy" />
+             </div>
+         </fieldset>
+   </div>
+</div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
+    <script type="text/javascript">
+        balanced.init('/v1/marketplaces/{{ marketplaceToken }}');
+    </script>
+    {% javascripts
+    '@CivixFrontBundle/Resources/public/js/payment.balanced.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}

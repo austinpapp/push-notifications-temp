@@ -1,0 +1,23 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Required Permissions{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('settingsMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+        <form class="form-horizontal" action="" method="POST">
+            <fieldset>
+                <legend>Permissions</legend>
+                {{ form_errors(form) }}
+                {{ form_rest(form) }}
+                <div class="form-actions">
+                    <input type="submit" class="btn btn-primary bt" value="Save" />
+                </div>
+            </fieldset>
+        </form>
+        </div>
+    </div>
+{% endblock content %}

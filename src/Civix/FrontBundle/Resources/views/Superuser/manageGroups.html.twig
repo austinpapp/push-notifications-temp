@@ -1,0 +1,43 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Manage Groups{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        {{ mopa_bootstrap_navbar('manageMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="span1">{{ knp_pagination_sortable(pagination, 'Id', 'g.id') }}</th>
+                        <th class="span5">Official name</th>
+                        <th class="span4">Email</th>
+                        <th class="span2">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in pagination %}
+                    <tr>
+                        <td>{{ group.id }}</td>
+                        <td>{% if group.officialName %}{{ group.officialName }}{% else %}{{ group.username }}{% endif %}</td>
+                        <td>{{ group.managerEmail }}</td>
+                        <td class="table-options"><form action="{{ path('civix_front_superuser_group_remove', {'id': group.id}) }}" method="POST"><input type="hidden" name="_token" value="{{ csrf_token('remove_group_' ~ group.id) }}"><input type="submit" class="btn btn-link" value="Remove" /></form>
+                            <a href="{{ path('civix_front_superuser_group_limits',{'id': group.id}) }}" title="Limits"><i class="icon-wrench"></i>Limits</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center">Table is empty.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

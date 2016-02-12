@@ -1,0 +1,19 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}{{ form_title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form class="form-horizontal" action="{{ form_link }}" method="POST">
+            {{ form_widget(form) }}
+            <div class="form-actions">
+                <input type="submit" value="Submit" class="btn btn-primary">
+                <a href="{{ back_link }}"
+                <button class="btn">Cancel</button>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

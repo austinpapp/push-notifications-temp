@@ -1,0 +1,24 @@
+{% set data = history.getDataAsArray() %}
+
+<table>
+    <tr>
+        <td><strong>Payment Request:</strong></td>
+        <td>{{ paymentRequest.getTitle() }}</td>
+    </tr>
+    <tr>
+        <td><strong>Payout amount:</strong></td>
+        <td>${{ ((marketplaceAmount + customerAmount) / 100) | number_format(2, '.', ',') }}</td>
+    </tr>
+    <tr>
+        <td><strong>Fees:</strong></td>
+        <td>${{ (marketplaceAmount / 100) | number_format(2, '.', ',') }}</td>
+    </tr>
+</table>
+
+<p>
+    ----------------------------------------------------------- <br>
+    Transaction Number: {{ history.getPublicId() }} <br>
+    Date: {{ data.created_at |date('D, d M y H:i:s O') }}<br>
+    Amount: ${{ data.amount / 100 }} <br>
+    -----------------------------------------------------------  <br>
+</p>

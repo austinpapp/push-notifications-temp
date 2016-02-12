@@ -1,0 +1,69 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Announcements{% endblock %}
+
+{% block content %}
+<nav class="submenu">
+    <ul class="nav nav-pills pull-right">
+        <li class="first last">
+            <a href="{{ path('civix_front_'~ app.user.type ~ '_announcement_new') }}">Create New Announcement</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="row">
+    <div class="span12">
+        <h4>New Announcements</h4>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="span6">Message</th>
+                <th class="span3">{{ knp_pagination_sortable(paginationNew, 'Created date', 'a.createdAt') }}</th>
+                <th class="span3">Options</th>
+            </tr>
+            {% for announcement in paginationNew %}
+                <tr>
+                    <td>{{ announcement.contentParsed | raw }}</td>
+                    <td>{{ announcement.createdAt|date("d-m-Y H:i") }}</td>
+                    <td class="table-options">
+                        <a href="{{ path('civix_front_'~ app.user.type ~ '_announcement_publish', {'id': announcement.id, 'token': token}) }}" class="btn btn-link">Publish</a>
+                        <a href="{{ path('civix_front_'~ app.user.type ~ '_announcement_edit', {'id': announcement.id}) }}" class="btn btn-link">Edit</a>
+                        <a href="{{ path('civix_front_'~ app.user.type ~ '_announcement_delete', {'id': announcement.id, 'token': token}) }}" class="btn btn-link">Remove</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3" style="text-align: center">No new announcements.</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(paginationNew) }}
+        </div>
+    </div>
+    <div class="span12">
+        <h4>Published Announcements</h4>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th class="span6">Message</th>
+                <th class="span3">{{ knp_pagination_sortable(paginationPublished, 'Published date', 'a.publishedAt') }}</th>
+            </tr>
+            {% for announcement in paginationPublished %}
+                <tr>
+                    <td>{{ announcement.contentParsed | raw }}</td>
+                    <td>{{ announcement.publishedAt|date("d-m-Y H:i") }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3" style="text-align: center">No published announcements.</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(paginationPublished) }}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

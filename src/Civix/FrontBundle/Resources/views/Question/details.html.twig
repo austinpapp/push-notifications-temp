@@ -1,0 +1,49 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Question Details{% endblock %}
+
+{% block content %}
+<nav class="submenu">
+    {{ mopa_bootstrap_navbar('questionMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+</nav>
+
+<div class="row q-results">
+    {% for item in statistics %}
+        <div class="span12">{{ item.option.value }}</div>
+        <div class="span11">
+            <i style="background: {{ item.color }}; width: {{ item.percent_width }}%;"></i>
+        </div>
+        <div class="span1">{{ item.percent_answer }}%</div>
+        <div class="span12"><hr></div>
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="span3">User</th>
+                    <th class="span7">{{ knp_pagination_sortable(pagination, 'Comment', 'a.comment') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answer in pagination %}
+                <tr>
+                    <td>{{ answer.user.firstName }} {{ answer.user.lastName }}</td>
+                    <td>{{ answer.comment }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center">Table is empty.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>
+{% endblock content %}

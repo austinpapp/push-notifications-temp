@@ -1,0 +1,34 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Group login{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form class="form-horizontal" action="{{ path('civix_front_group_login_check') }}" method="POST">
+            <input type="hidden" id="csrf_token" name="_csrf_token" value="{{ csrf_token }}" />
+            <fieldset>
+                <legend>Group login</legend>
+                {% if error %}
+                    <div class="alert alert-error">{{ error.message }}</div>
+                {% endif %}
+                <div class="control-group">
+                    <label class="control-label" for="username">Login</label>
+                    <div class="controls">
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="password">Password</label>
+                    <div class="controls">
+                        <input type="password" id="password" name="_password" />
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <input class="btn btn-primary" type="submit" name="login" value="Sign In" /> or <a href="{{ path('civix_front_group_registration')}}">Registration</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

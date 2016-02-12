@@ -1,0 +1,27 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Buy{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% if card %}
+            <div class="span12">
+                <p><strong>Card:</strong> {{ card.brand }} {{ card.last4 }}</p>
+            </div>
+            <br>
+            <div class="span12">
+                <form method="post">
+                    {{ form_widget(form) }}
+                    <input name="amount" value="{{ amount }}" type="hidden">
+                    <input type="submit" class="btn btn-primary" value="Buy">
+                </form>
+            </div>
+        {% else %}
+            <div class="span12">
+                <a class="btn btn-primary" data-open-card-from>Add Card</a>
+            </div>
+        {% endif %}
+    </div>
+
+    {{ include('CivixFrontBundle:PaymentSettings:stripe.html.twig') }}
+{% endblock content %}

@@ -1,0 +1,46 @@
+{
+    "name": "nelmio/api-doc-bundle",
+    "description": "Generates documentation for your REST API from annotations",
+    "keywords": ["api", "documentation", "doc", "rest"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nelmio",
+            "homepage": "http://nelm.io"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://github.com/nelmio/NelmioApiDocBundle/contributors"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "~2.1",
+        "symfony/twig-bundle": "~2.1",
+        "symfony/form": "~2.1",
+        "dflydev/markdown": "1.0.*"
+    },
+    "conflict": {
+        "jms/serializer": "<0.12",
+        "jms/serializer-bundle": "<0.11"
+    },
+    "require-dev": {
+        "symfony/css-selector": "~2.1",
+        "symfony/browser-kit": "~2.1",
+        "symfony/validator": "~2.1",
+        "symfony/yaml": "~2.1",
+        "friendsofsymfony/rest-bundle": "0.12.*@dev",
+        "jms/serializer-bundle": ">=0.11",
+        "sensio/framework-extra-bundle": "~2.1"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": { "Nelmio\\ApiDocBundle": "" }
+    },
+    "target-dir": "Nelmio/ApiDocBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.3.x-dev"
+        }
+    }
+}

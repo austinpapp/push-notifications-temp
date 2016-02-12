@@ -1,0 +1,72 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Blog posts{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        <ul class="nav nav-pills pull-right">
+            <li class="first last">
+                <a href="{{ path('civix_front_' ~ app.user.type ~ '_post_new') }}">Create New Post</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <h4>New Posts</h4>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="span6">Title</th>
+                    <th class="span3">{{ knp_pagination_sortable(paginationNew, 'Created date', 'p.createdAt') }}</th>
+                    <th class="span3">Options</th>
+                </tr>
+                {% for item in paginationNew %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.createdAt|date("d-m-Y H:i") }}</td>
+                        <td class="table-options">
+                             <a href="{{ path('civix_front_' ~ app.user.type ~ '_post_edit', {'id': item.id}) }}">Edit</a>
+                             <a href="{{ path('civix_front_' ~ app.user.type ~ '_post_publish', {'id': item.id}) }}">Publish</a>
+                             <a href="{{ path('civix_front_' ~ app.user.type ~ '_post_delete', {'id': item.id}) }}">Delete</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center">No new posts.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(paginationNew) }}
+            </div>
+        </div>
+        <div class="span12">
+            <h4>Published Posts</h4>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="span6">Title</th>
+                    <th class="span3">{{ knp_pagination_sortable(paginationPublished, 'Published date', 'p.publishedAt') }}</th>
+                    <th class="span3">Options</th>
+                </tr>
+                {% for item in paginationPublished %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.publishedAt|date("d-m-Y H:i") }}</td>
+                        <td>
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_post_edit', {'id': item.id}) }}">Edit</a>
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_post_delete', {'id': item.id}) }}">Delete</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="43" style="text-align: center">No published posts.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(paginationPublished) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

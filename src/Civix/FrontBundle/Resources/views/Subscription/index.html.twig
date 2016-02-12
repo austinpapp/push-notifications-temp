@@ -1,0 +1,117 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Subscriptions{% endblock %}
+
+{% block content %}
+    {% if subscription.isNotFree() %}
+        <div class="row">
+            <div class="well span3">
+                <p>
+                    Account: {{ subscription.label }}
+                    {% if subscription.enabled == false %}
+                        (<span style="color: red">canceled</span>)
+                    {% endif %}
+                </p>
+                {% if subscription.isActive %}
+                    <p>Expire at: {{ subscription.expiredAt|date('D, d M y H:i:s O') }}</p>
+                {% elseif subscription.isNotFree %}
+                    <p class="warning">Expired</p>
+                {% endif %}
+                {% if subscription.enabled %}
+                    <p><a href="{{ path('civix_front_' ~ app.user.type ~ '_subscription_cancelsubscription', {token: token}) }}">Cancel subscription</a></p>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        {% set package = packages[constant('PACKAGE_TYPE_FREE', subscription)] %}
+        <div class="span4">
+            <div class="well">
+                <h3>Get Started</h3>
+                <h4>{{ package.title }}</h4>
+                <p>{{ package.price }}$/month</p>
+                <br>
+            </div>
+            <div>
+                <p>
+                    Audience: Unlimited <br>
+                    Size: Unlimited
+                </p>
+            </div>
+        </div>
+        {% set package = packages[constant('PACKAGE_TYPE_SILVER', subscription)] %}
+        <div class="span4">
+            <div class="well">
+                <h3>For Controls</h3>
+                <h4>{{ package.title }}</h4>
+                <p>{{ package.price }}$/month</p>
+                <br>
+            </div>
+            <div>
+                <p>
+                    Audience: Not Business <br>
+                    Size: Under 1000 users
+                </p>
+                {% if package.isBuyAvailable %}
+                <a href="{{ path('civix_front_' ~ app.user.type ~ '_subscription_subscribe', {id: constant('PACKAGE_TYPE_SILVER', subscription)}) }}"
+                   class="btn btn-primary">Buy</a>
+                {% endif %}
+
+            </div>
+        </div>
+        {% set package = packages[constant('PACKAGE_TYPE_GOLD', subscription)] %}
+        <div class="span4">
+            <div class="well">
+                <h3>For Growth</h3>
+                <h4>{{ package.title }}</h4>
+                <p>{{ package.price }}$/month</p>
+                <br>
+            </div>
+            <div>
+                <p>
+                    Audience: Unlimited <br>
+                    Size: Under 5000 users
+                </p>
+                {% if package.isBuyAvailable %}
+                <a href="{{ path('civix_front_' ~ app.user.type ~ '_subscription_subscribe', {id: constant('PACKAGE_TYPE_GOLD', subscription)}) }}" class="btn btn-primary">Buy</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        {% set package = packages[constant('PACKAGE_TYPE_PLATINUM', subscription)] %}
+        <div class="span4">
+            <div class="well">
+                <h3>For Insights</h3>
+                <h4>{{ package.title }}</h4>
+                <p>{{ package.price }}$/month</p>
+                <br>
+            </div>
+            <div>
+                <p>
+                    Audience: Not Business <br>
+                    Size: Unlimited
+                </p>
+                {% if package.isBuyAvailable %}
+                <a href="{{ path('civix_front_' ~ app.user.type ~ '_subscription_subscribe', {id: constant('PACKAGE_TYPE_PLATINUM', subscription)}) }}" class="btn btn-primary">Buy</a>
+                {% endif %}
+            </div>
+        </div>
+        {% set package = packages[constant('PACKAGE_TYPE_COMMERCIAL', subscription)] %}
+        <div class="span4">
+            <div class="well">
+                <h3>For Business</h3>
+                <h4>{{ package.title }}</h4>
+                <p>Contact Us</p>
+                <br>
+            </div>
+            <div>
+                <p>
+                    Audience: Business Only <br>
+                    Size: Unlimited
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

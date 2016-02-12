@@ -1,0 +1,53 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Follow Up Payment Requests{% endblock %}
+
+{% block content %}
+    <nav class="submenu">
+        <ul class="nav nav-pills pull-right">
+            <li class="first last">
+                <a href="{{ path('civix_front_' ~ app.user.type ~ '_paymentrequest_new', {'petition': petition.id}) }}" target="_blank">Create New Payment Request</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="row">
+        <div class="span12">
+            <h4>Publish payment request for petition signers</h4>
+            <h5>"{{ petition.petitionTitle }}"</h5>
+            {% if package.isTargetedPetitionFundraisingAvailable %}
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="span6">Title</th>
+                    <th class="span3">{{ knp_pagination_sortable(paginationNew, 'Created date', 'pr.createdAt') }}</th>
+                    <th class="span3">Options</th>
+                </tr>
+                {% for item in paginationNew %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.createdAt|date("d-m-Y H:i") }}</td>
+                        <td class="table-options">
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_paymentrequest_publishfollowup', {'id': item.id, 'petition': petition.id}) }}" class="btn btn-link">Publish</a>
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_paymentrequest_edit', {'id': item.id}) }}" class="btn btn-link" target="_blank">Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center">
+                            <a href="{{ path('civix_front_' ~ app.user.type ~ '_paymentrequest_new', {'petition': petition.id}) }}" target="_blank">
+                                Create
+                            </a>
+                            new payment request then <a href="{{ path('civix_front_' ~ app.user.type ~ '_paymentrequest_followup', {'petition': petition.id}) }}">reload</a> this page.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="navigation">
+                {{ knp_pagination_render(paginationNew) }}
+            </div>
+            {% else %}
+                <h5>Not available for free account</h5>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

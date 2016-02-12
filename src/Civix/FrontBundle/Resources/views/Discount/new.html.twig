@@ -1,0 +1,19 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Create new code{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="span12">
+        <form action="" method="POST" enctype="multipart/form-data">
+            <legend>Create new code</legend>
+            {{ form_rest(form) }}
+            <div class="form-actions">
+                <input type="submit" value="Create" class="btn btn-primary">
+                <a class="btn" href="{{ path('civix_front_superuser_discount_index') }}">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}

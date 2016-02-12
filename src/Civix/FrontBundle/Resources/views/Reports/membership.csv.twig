@@ -1,0 +1,4 @@
+Name,Contact Information,Facebook,Group division,{%for field in fields%}{{field.fieldName}},{%else%}Answers,{%endfor%}Join date,Followers
+{% for ug in users %}
+{{ ug.0.user.fullname }},"{{ ug.0.user.address1 }} {{ ug.0.user.address2 }}, {{ ug.0.user.city }}, {{ ug.0.user.state }}, {{ ug.0.user.country }}, {{ ug.0.user.email }}, {{ ug.0.user.phone }}",{%if ug.0.user.facebookId %}Yes{%else%}No{%endif%},{{ ug.groupDivision }},{{ render(controller('CivixFrontBundle:Group/Report:fields', {'user': ug.0.user, 'format': 'csv'})) }}"{{ug.0.createdAt|date('D, d M Y H:i:s')}}",{{ug.0.user.followers.count}},
+{% endfor %}

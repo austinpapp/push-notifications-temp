@@ -1,0 +1,20 @@
+{
+    "name": "intellectsoft-uk/assert",
+    "description": "The assertion library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mikhail Benedziktovich",
+            "email": "mikhail.benedziktovich@gmail.com"
+        }
+    ],
+    "keywords": ["assert", "assertion"],
+    "autoload": {
+        "psr-0": {
+            "Isdev": "lib/"
+        }
+    },
+    "require": {
+
+    }
+}

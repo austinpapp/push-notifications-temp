@@ -1,0 +1,20 @@
+{{ user.firstName }},
+
+<p>
+You've made a ${{ data.amount / 100 }} payment to {{ paymentRequest.getUser().getOfficialName() }}.
+This charge will appear on your credit card statement as {{ data.appears_on_statement_as }}.
+Please contact your community leadership if you have any questions or concerns regarding this information.
+</p>
+
+<p>Thank You!</p>
+
+<p>
+----------------------------------------------------------- <br>
+{{ paymentRequest.getUser().getType() |capitalize }}: {{ paymentRequest.getUser().getOfficialName() }} <br>
+Campaign: {{ paymentRequest.getTitle() }} <br>
+Order Number: {{ order_number }} <br>
+Transaction Number: {{ transaction_number }} <br>
+Date: {{ data.created_at |date('D, d M y H:i:s O') }}<br>
+Amount: ${{ data.amount / 100 }} <br>
+-----------------------------------------------------------  <br>
+</p>

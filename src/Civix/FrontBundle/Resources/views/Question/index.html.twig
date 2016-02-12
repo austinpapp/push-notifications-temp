@@ -1,0 +1,45 @@
+{% extends 'CivixFrontBundle::layout.html.twig' %}
+
+{% block page_title %}Question{% endblock %}
+
+{% block content %}
+<nav class="submenu">
+    {{ mopa_bootstrap_navbar('questionMenu', {'template': 'CivixFrontBundle::submenu.html.twig'}) }}
+</nav>
+<div class="row">
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="span1">{{ knp_pagination_sortable(pagination, 'ID', 'p.id') }}</th>
+                    <th class="span6">{{ knp_pagination_sortable(pagination, 'Question Subject', 'p.subject') }}</th>
+                    <th class="span2">{{ knp_pagination_sortable(pagination, 'Created date', 'p.createdAt') }}</th>
+                    <th class="span3">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in pagination %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.subject }}</td>
+                    <td>{{ question.createdAt|date("d-m-Y H:i") }}</td>
+                    <td class="table-options">
+                        <a href="{{ path('civix_front_' ~ app.user.type ~ '_question_publish', {'id': question.id, 'token': token}) }}" class="btn btn-link">Publish</a>
+                        <a href="{{ path('civix_front_' ~ app.user.type ~ '_question_edit', {'id': question.id}) }}" class="btn btn-link">Edit</a>
+                        <a href="{{ path('civix_front_' ~ app.user.type ~ '_question_delete', {'id': question.id, 'token': token}) }}" class="btn btn-link">Remove</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center">Table is empty.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+</div>
+{% endblock content %}

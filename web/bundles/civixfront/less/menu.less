@@ -1,0 +1,88 @@
+body > nav.navigation {
+  position: fixed;
+  top: 90px;
+  left: 0;
+  width: 250px;
+  background: #7eae33;
+  height: 100%;
+  color: #fff;
+  font-size: 13px;
+
+  a {
+    color: #fff;
+    text-indent: 60px;
+    display: block;
+    position: relative;
+    &:hover {
+      text-decoration: none;
+    }
+
+    i {
+      display: block;
+      position: absolute;
+      background: url('/bundles/civixfront/img/icons/main_menu_sprite.png') 0 0 no-repeat;
+      background-size: 36px auto;
+      background-position: 0 0;
+      margin: 0;
+      width: 36px;
+      height: 50px;
+      left: 10px;
+      top: 0;
+      &.icon-poll {
+        background-position: 0 -45px;
+      }
+      &.icon-petition {
+        background-position: 0 -103px;
+      }
+      &.icon-alert {
+        background-position: 0 -158px;
+      }
+      &.icon-report {
+        background-position: 0 -268px;
+      }
+      &.icon-discussion {
+        background-position: 0 -216px;
+      }
+    }
+  }
+
+  a:hover, a:focus, a:active {
+    background: none;
+    text-decoration: underline;
+    outline: none;
+    border: none;
+  }
+
+  li {
+    line-height: 50px;
+    list-style: none;
+    &.active > a{
+      background-color: #8cb433;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .dropdown-main {
+    .dropdown-main-menu {
+      display: none;
+    }
+    &.open .dropdown-main-menu {
+      display: block;
+      a{
+        text-indent: 70px;
+      }
+    }
+    &.active > a {
+      background-color: transparent;
+    }
+  }
+}
+
+body > .container {
+  margin-left: 290px;
+  margin-top: 130px;
+}
